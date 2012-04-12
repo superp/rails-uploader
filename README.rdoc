@@ -1,0 +1,45 @@
+= Sunrise CMS: File uploader
+
+== Install
+
+  gem "sunrise-file-upload"
+
+== Callbacks
+
+  Sunrise::FileUpload::Manager.before_create do |env, asset|
+    asset.user = env['warden'].user if env['warden']
+  end
+  
+  Sunrise::FileUpload::Manager.after_create do |env, asset|
+    asset.user = env['warden'].user if env['warden']
+  end
+
+== Usage
+
+  class User < ActiveRecord::Base
+    has_one :picture, :as => :assetable, :dependent => :destroy
+    
+    fileuploads :picture
+  end
+
+Find asset by foreign key or guid:
+
+  @user.fileupload_asset(:picture)
+
+=== Views
+
+  <%= stylesheet_link_tag "fileupload/application" %>
+  <%= javascript_include_tag "fileupload/application", "jquery.tmpl.min" %>
+  
+  <%= form.fileupload :picture %>
+  <%= form.hidden_field :fileupload_guid if form.object.new_record? %>
+  
+  <script id="fileupload_tmpl" type="text/x-jquery-tmpl">
+    <div class="fileupload-container">
+      <div class="fileupload-preview"><img alt="Фото" src="/images/userico.jpg"></div>
+      <div class="fileupload-button"><input type="image" value="Оберіть фаіл" src="/images/but_set.png"></div>
+      <ul class="fileupload-list" style="display:none;"></ul>
+    </div>
+  </script>
+
+Copyright (c) 2011 Aimbulance, released under the MIT license
