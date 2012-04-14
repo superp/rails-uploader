@@ -1,0 +1,21 @@
+<div class="dnd-area">
+	<div class="dnd-hints">
+	  <%= file_field(object_name, method_name, input_html) %>
+	  <%#= hidden_field(object_name, :uploader_guid) if object.new_record? %>
+		<input type="button" class="button gray" value="Выберите файл на компьютере">
+		или<span>Перетащите фотографию сюда</span>
+	</div>
+	
+	<script type="text/javascript">
+    $(function () {
+      $('#fileupload').fileupload({
+        dataType: 'json',
+        dropZone: $(document),
+        autoUpload: true
+      });
+    });
+  </script>
+</div>
+
+<%#= render :partial => "uploader/#{theme}/upload" %>
+<%#= render :partial => "upload/#{theme}/download" %>

@@ -1,18 +1,16 @@
-= Sunrise CMS: File uploader
+= HTML5 File uploader for rails
+
+This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
 
 == Install
 
-  gem "sunrise-file-upload"
+In Gemfile:
 
-== Callbacks
+  gem "rails-uploader"
 
-  Sunrise::FileUpload::Manager.before_create do |env, asset|
-    asset.user = env['warden'].user if env['warden']
-  end
-  
-  Sunrise::FileUpload::Manager.after_create do |env, asset|
-    asset.user = env['warden'].user if env['warden']
-  end
+In routes:  
+
+  mount Uploader::Engine => '/uploader'
 
 == Usage
 
@@ -28,18 +26,6 @@ Find asset by foreign key or guid:
 
 === Views
 
-  <%= stylesheet_link_tag "fileupload/application" %>
-  <%= javascript_include_tag "fileupload/application", "jquery.tmpl.min" %>
   
-  <%= form.fileupload :picture %>
-  <%= form.hidden_field :fileupload_guid if form.object.new_record? %>
-  
-  <script id="fileupload_tmpl" type="text/x-jquery-tmpl">
-    <div class="fileupload-container">
-      <div class="fileupload-preview"><img alt="Фото" src="/images/userico.jpg"></div>
-      <div class="fileupload-button"><input type="image" value="Оберіть фаіл" src="/images/but_set.png"></div>
-      <ul class="fileupload-list" style="display:none;"></ul>
-    </div>
-  </script>
 
-Copyright (c) 2011 Aimbulance, released under the MIT license
+Copyright (c) 2012 Aimbulance, released under the MIT license

@@ -1,5 +1,3 @@
-module Sunrise
-  module FileUpload
-    VERSION = "0.2.0".freeze
-  end
+module Uploader
+  VERSION = "0.0.1".freeze
 end

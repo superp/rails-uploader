@@ -1,22 +1,19 @@
 require 'rails'
-require 'sunrise-file-upload'
+require 'uploader'
 
-module Sunrise
-  module FileUpload
-    class Engine < ::Rails::Engine
-      # Initialize Rack file upload
-      config.app_middleware.use Sunrise::FileUpload::Manager, :paths => "/sunrise/fileupload"
-      
-      initializer "sunrise.fileupload.setup" do
-        ActiveSupport.on_load :active_record do
-          ::ActiveRecord::Base.send :include, Sunrise::FileUpload::ActiveRecord
-        end
-        
-        ActiveSupport.on_load :action_view do
-          ActionView::Base.send :include, Sunrise::FileUpload::ViewHelper
-          ActionView::Helpers::FormBuilder.send :include, Sunrise::FileUpload::FormBuilder
-        end
-      end
+module Uploader
+  class Engine < ::Rails::Engine
+    isolate_namespace Uploader
+    
+    initializer "uploader.assets_precompile" do |app|
+      app.config.assets.precompile += Uploader.assets
     end
+    
+    initializer "uploader.helpers" do    
+      ActiveSupport.on_load :action_view do
+        ActionView::Base.send(:include, Uploader::Helpers::FormTagHelper)
+        ActionView::Helpers::FormBuilder.send(:include, Uploader::Helpers::FormBuilder)
+      end
+    end  
   end
 end

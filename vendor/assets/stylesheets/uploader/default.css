@@ -1,0 +1,100 @@
+.dnd-area {
+  border: 1px dashed #CCC;
+  padding: 20px;
+  color: #B1B1B1;
+  height: 130px;
+}
+.dnd-hints {
+  text-align: center;
+  margin-top: 30px;
+}
+
+input.button {
+	display: block;
+	background: #972da0;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#982da1', endColorstr='#892891'); 
+	background: -webkit-linear-gradient(left top, left bottom, #982da1, #892891); 
+	background: -moz-linear-gradient(top,  #982da1,  #892891); 
+	background: -o-linear-gradient(top,  #982da1,  #892891); 
+	background: -ms-linear-gradient(top,  #982da1,  #892891); 
+	border: solid 1px #5f1c65;
+	border-radius: 2px;
+  -moz-border-radius: 2px;
+	padding: 0 15px;
+	margin: 0 3px 3px;
+	color: #fff;
+	font-size: 12px;
+	font-family: MyriadPro, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #000;
+	cursor: pointer;
+	height: 31px;
+}
+input.button:hover {
+	background: #972da0;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90179a', endColorstr='#7d2485'); 
+  background: -webkit-linear-gradient(left top, left bottom, #90179a, #7d2485); 
+  background: -moz-linear-gradient(top,  #90179a,  #7d2485); 
+  background: -o-linear-gradient(top,  #90179a,  #7d2485); 
+  background: -ms-linear-gradient(top,  #90179a,  #7d2485); 
+	-moz-box-shadow: 0 1px 3px #aaa;
+  -webkit-box-shadow: 0 1px 3px #aaa;
+  box-shadow: 0 1px 3px #aaa;
+}
+input.button:active {
+  background: #8e1898;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8e1898', endColorstr='#7f2387'); 
+  background: -webkit-linear-gradient(left top, left bottom, #8e1898, #7f2387); 
+  background: -moz-linear-gradient(top,  #8e1898,  #7f2387); 
+  background: -o-linear-gradient(top,  #8e1898,  #7f2387); 
+  background: -ms-linear-gradient(top,  #8e1898,  #7f2387); 
+	-moz-box-shadow: inset 0 0 4px #5f1c65;
+  -webkit-box-shadow: inset 0 0 4px #5f1c65;
+  box-shadow: inset 0 0 4px #5f1c65;
+}
+input.button::-moz-focus-inner {
+	border: 1px dotted transparent;
+}
+input.button.gray {
+	background: #f4f4f4;
+  border: solid 1px #dbdbdb;
+	color: #616161;
+	text-shadow: none;
+}
+input.button.gray:hover {
+  background: #f3f3f3;
+  border: solid 1px #c6c6c6;
+  color: #444;
+	-webkit-box-shadow: 0 3px 3px -1px #e6e6e6;
+  -moz-box-shadow: 0 3px 3px -1px #e6e6e6;
+  box-shadow: 0 3px 3px -1px #e6e6e6;
+}
+input.button.gray:active {
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc inset !important;
+  -moz-box-shadow : 0 0 3px #ccc inset !important;
+  -o-box-shadow : 0 0 3px #ccc inset !important;
+  box-shadow : 0 0 3px #ccc inset !important;
+  background-color: #e9e9e9 !important;
+  color: #444;
+}
+input[disabled].button {
+	background: #d2aad6 !important;
+  border: solid 1px #bfa4c1 !important;
+	-webkit-box-shadow: none !important;
+  -moz-box-shadow : none !important;
+  -o-box-shadow : none !important;
+  box-shadow : none !important;
+	text-shadow: none;
+	cursor: default;
+}
+input[disabled].button.gray {
+  background: #f4f4f4 !important;
+  border: solid 1px #dbdbdb !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow : none !important;
+  -o-box-shadow : none !important;
+  box-shadow : none !important;
+	color: #616161 !important;
+  cursor: default;
+}
