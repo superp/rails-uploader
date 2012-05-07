@@ -14,6 +14,11 @@ module Uploader
         ActionView::Base.send(:include, Uploader::Helpers::FormTagHelper)
         ActionView::Helpers::FormBuilder.send(:include, Uploader::Helpers::FormBuilder)
       end
-    end  
+    end
+   
+    initializer "uploader.hooks" do
+      require "uploader/hooks/active_record" if Object.const_defined?("ActiveRecord")
+      require "uploader/hooks/formtastic"    if Object.const_defined?("Formtastic")
+    end
   end
 end

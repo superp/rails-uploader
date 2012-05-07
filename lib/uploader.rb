@@ -2,6 +2,8 @@
 require 'securerandom'
 
 module Uploader
+  autoload :Fileuploads, 'uploader/fileuploads'
+  
   module Helpers
     autoload :FormTagHelper, 'uploader/helpers/form_tag_helper'
     autoload :FormBuilder, 'uploader/helpers/form_builder'

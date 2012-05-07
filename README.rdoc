@@ -24,8 +24,23 @@ Find asset by foreign key or guid:
 
   @user.fileupload_asset(:picture)
 
+=== Include assets
+
+Javascripts:
+
+  //= require uploader/application
+
+Stylesheets:
+
+  *= require uploader/application  
+  
 === Views
 
+  
+
+=== Formtastic
+
+  <%= f.input :picture, :as => :uploader %>
   
 
 Copyright (c) 2012 Aimbulance, released under the MIT license
