@@ -4,6 +4,8 @@ require 'rails/all'
 
 Bundler.require
 require "rails-uploader"
+require 'carrierwave'
+require 'carrierwave/orm/activerecord'
 
 module Dummy
   class Application < Rails::Application
