@@ -1,1 +1,12 @@
 pkg/
+vendor/bundle/
+.bundle/
+spec/tmp
+spec/dummy/log/*.log
+spec/dummy/tmp/
+spec/dummy/db/schema.rb
+spec/dummy/db/sphinx/
+spec/dummy/public/assets/
+spec/dummy/public/uploads/
+spec/dummy/vendor/bundle/
+spec/dummy/log/development.log

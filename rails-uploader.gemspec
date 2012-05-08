@@ -17,4 +17,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["{spec}/**/*"]
   s.extra_rdoc_files = ["README.rdoc"]
   s.require_paths = ["lib"]
+  
+  s.add_development_dependency "sqlite3"
 end
