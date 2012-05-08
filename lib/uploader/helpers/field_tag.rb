@@ -48,8 +48,20 @@ module Uploader
         @value ||= @object.fileupload_asset(method_name)
       end
       
+      def attachments_path(options = {})
+        options = {
+          :guid => @object.fileupload_guid, 
+          :assetable_type => @object.class.name,
+          :klass => @object.class.fileupload_klass(method_name)
+        }.merge(options)
+        
+        options[:assetable_id] = @object.id if @object.persisted?
+        
+        uploader.attachments_path(options)
+      end
+      
       def input_html
-        {:"data-url" => uploader.attachments_path, :multiple => multiple?}
+        {:"data-url" => attachments_path, :multiple => multiple?}
       end
     end
   end

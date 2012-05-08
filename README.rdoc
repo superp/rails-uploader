@@ -14,6 +14,35 @@ In routes:
 
 == Usage
 
+Architecture to store uploaded files:
+
+  class Asset < ActiveRecord::Base
+    include Uploader::Asset
+    
+    def upload(params, request = nil)
+      self.user = request.env['warden'].user
+      super
+    end
+    
+    def uploader_destroy(params, request = nil)
+      ability = Ability.new(request.env['warden'].user)
+      if ability.can? :delete, self
+        super
+      else
+        errors.add(:id, :access_denied)
+      end
+    end
+  end
+  
+  class Picture < Asset
+    mount_uploader :data, PictureUploader
+
+	  validates_integrity_of :data
+	  validates_filesize_of :data, :maximum => 2.megabytes.to_i
+  end
+
+For example user has one picture:
+
   class User < ActiveRecord::Base
     has_one :picture, :as => :assetable, :dependent => :destroy
     

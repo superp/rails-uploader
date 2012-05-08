@@ -18,10 +18,8 @@
         dataType: 'json',
         dropZone: $("#<%= field.id %>"),
         autoUpload: true,
-        paramName: "file",
-        formData: function(form){
-          return [{"name": "guid", "value": "<%= object.fileupload_guid %>"}];
-        }
+        paramName: "asset[data]",
+        formData: function(form){ return []; }
       });
     });
   </script>

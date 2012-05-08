@@ -49,11 +49,10 @@ module Uploader
         klass.where(:guid => guid).first
       end
       
-      protected
-        
-        def fileupload_klass(method)
-          reflections[method.to_sym].klass
-        end
+      # Find class by reflection
+      def fileupload_klass(method)
+        reflections[method.to_sym].klass
+      end
     end
     
     module InstanceMethods
