@@ -36,9 +36,9 @@ Architecture to store uploaded files:
   
   class Picture < Asset
     mount_uploader :data, PictureUploader
-
-	  validates_integrity_of :data
-	  validates_filesize_of :data, :maximum => 2.megabytes.to_i
+    
+    validates_integrity_of :data
+    validates_filesize_of :data, :maximum => 2.megabytes.to_i
   end
 
 For example user has one picture:
