@@ -14,18 +14,25 @@ In routes:
 
 == Usage
 
-Architecture to store uploaded files:
+Architecture to store uploaded files (cancan integration):
 
   class Asset < ActiveRecord::Base
     include Uploader::Asset
     
-    def upload(params, request = nil)
-      self.user = request.env['warden'].user
-      super
+    def uploader_create(params, request = nil)
+      ability = Ability.new(request.env['warden'].user)
+      
+      if ability.can? :create, self
+        self.user = request.env['warden'].user
+        super
+      else
+        errors.add(:id, :access_denied)
+      end
     end
     
     def uploader_destroy(params, request = nil)
       ability = Ability.new(request.env['warden'].user)
+      
       if ability.can? :delete, self
         super
       else
@@ -65,9 +72,13 @@ Stylesheets:
   
 === Views
 
-  
+  <%= uploader_field_tag :article, :photo %>
 
 === Formtastic
+
+  <%= f.input :picture, :as => :uploader %>
+
+=== SimpleForm
 
   <%= f.input :picture, :as => :uploader %>
   
