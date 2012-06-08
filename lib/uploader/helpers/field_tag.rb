@@ -15,17 +15,17 @@ module Uploader
         options = { :object_name => object_name, :method_name => method_name }.merge(options)
         
         @template, @options = template, options.dup
+        
         @theme = (@options.delete(:theme) || "default")
         @value = @options.delete(:value) if @options.key?(:value)
-        @object = @template.instance_variable_get("@#{object_name}")
         
-        @options[:object] ||= @object
-        @options[:input_html] = input_html.merge(@options[:input_html] || {})
+        @object = @options.delete(:object) if @options.key?(:object)
+        @object ||= @template.instance_variable_get("@#{object_name}")
       end
 
       def to_s(locals = {}) #:nodoc:
         locals = { :field => self }.merge(locals)
-        @template.render :partial => "uploader/#{@theme}/container", :locals => @options.merge(locals)
+        @template.render :partial => "uploader/#{@theme}/container", :locals => locals
       end
       
       def id
@@ -61,7 +61,11 @@ module Uploader
       end
       
       def input_html
-        {:"data-url" => attachments_path, :multiple => multiple?}
+        @input_html ||= {
+          :"data-url" => attachments_path, 
+          :multiple => multiple?,
+          :class => "uploader"
+        }.merge(@options[:input_html] || {})
       end
     end
   end

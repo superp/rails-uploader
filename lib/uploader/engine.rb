@@ -19,6 +19,7 @@ module Uploader
     initializer "uploader.hooks" do
       require "uploader/hooks/active_record" if Object.const_defined?("ActiveRecord")
       require "uploader/hooks/formtastic"    if Object.const_defined?("Formtastic")
+      require "uploader/hooks/simple_form"   if Object.const_defined?("SimpleForm")
     end
   end
 end

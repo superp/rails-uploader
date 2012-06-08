@@ -1,25 +1,29 @@
-<%= content_tag(:div, :id => field.id, :class => "dnd-area") do %>
-  <%= hidden_field(object_name, :fileupload_guid) if object.new_record? %>
+<%= content_tag(:div, :id => field.id, :class => "uploader-dnd-area") do -%>
+  <%= hidden_field(field.object_name, :fileupload_guid) if field.object.new_record? %>
   
-	<div class="dnd-hints">
-	  <%= fields_for object do |f| %>
-	    <%= f.fields_for method_name, field.value do |m| %>
-        <%= m.file_field(:data, input_html) %>
+	<div class="uploader-dnd-hints">
+	  <%= fields_for field.object do |f| -%>
+	    <%= f.fields_for field.method_name, field.value do |m| -%>
+        <%= m.file_field(:data, field.input_html) %>
 	    <% end -%>
 	  <% end -%>
 	  
-		<input type="button" class="button gray" value="Выберите файл на компьютере">
+		<input type="button" class="uploader-button gray" value="Выберите файл на компьютере">
 		или<span>Перетащите фотографию сюда</span>
 	</div>
 	
+	<%= render :partial => "uploader/#{field.theme}/init" %>
+	
 	<script type="text/javascript">
     $(function() {
-      $('#<%= field.id %> input[type="file"]').fileupload({
-        dataType: 'json',
-        dropZone: $("#<%= field.id %>"),
-        autoUpload: true,
-        paramName: "asset[data]",
-        formData: function(form){ return []; }
+      $('#<%= field.id %> input[type="file"]').bind("init.uploader", function(e){
+        $(this).fileupload({
+          dataType: 'json',
+          dropZone: $("#<%= field.id %>"),
+          autoUpload: true,
+          paramName: "asset[data]",
+          formData: function(form){ return []; }
+        });
       });
     });
   </script>
