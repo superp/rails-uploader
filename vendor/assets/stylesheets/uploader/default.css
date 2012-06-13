@@ -1,8 +1,8 @@
-.uploader-dnd-area {
-  border: 1px dashed #CCC;
-  padding: 20px;
-  color: #B1B1B1;
-  height: 130px;
+.uploader-dnd-area { 
+  border: 1px dashed #ccc;
+	padding: 15px 0px 15px 20px;
+	color: #b1b1b1;
+	overflow: hidden;
 }
 .uploader-dnd-area:active {
 	border-color: #d169d9;
@@ -12,8 +12,9 @@
 }
 .uploader-dnd-hints {
   text-align: center;
-  margin-top: 30px;
+  padding: 30px 0;
   overflow: hidden;	
+  clear: both;
 }
 .uploader-dnd-hints .uploader-button {
   margin: 0 20px 0 200px;
@@ -121,4 +122,84 @@ input[disabled].uploader-button.gray {
   box-shadow : none !important;
 	color: #616161 !important;
   cursor: default;
+}
+
+.uploader-dnd-area .attach_item {
+  width: 242px;
+  height: 50px;
+  border: 1px solid #cccccd;
+  padding: 19px;
+  position: relative;
+  float: left;
+  margin: 0 20px 20px 0;
+}
+.uploader-dnd-area .attach_item:hover {
+  -moz-box-shadow: 0 0 2px #ccc;
+  -webkit-box-shadow: 0 0 2px #ccc;
+  box-shadow: 0 0 2px #ccc;
+}
+.uploader-dnd-area .attach_item:active {
+  -moz-box-shadow: 0 0 5px #d2d2d2;
+  -webkit-box-shadow: 0 0 5px #d2d2d2;
+  box-shadow: 0 0 5px #d2d2d2;
+  border: solid 1px #cf63d8;
+}	
+
+.uploader-dnd-area .attach_item a.del_btn {
+  width: 19px;
+  height: 19px;
+  display: block;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: url(/assets/uploader/but_del_tag2.png) no-repeat top left;
+}
+.uploader-dnd-area .attach_item .del_btn:hover {
+  background-position: bottom left;
+}
+
+.uploader-dnd-area .attach_item .thumbnail {
+  width: 50px;
+  height: 50px;
+  float: left;
+  overflow: hidden;
+  background-color: #f3f3f3;
+}
+.uploader-dnd-area .attach_item .thumbnail .preloader {
+  border: 1px solid #E5E5E5;
+  padding: 10px;
+}
+.uploader-dnd-area .attach_item .infoHolder {
+  float: right;
+  width: 180px;
+  overflow: hidden;
+}		
+.uploader-dnd-area .attach_item .fileName {
+  color: #000;
+  font-size: 14px;
+  height: 18px;
+  overflow: hidden;
+}
+.uploader-dnd-area .attach_item.loading .fileName {
+  color: #B1B1B1;
+}
+.uploader-dnd-area .attach_item .fileWeight {
+  font-size: 12px;
+}
+.uploader-dnd-area .attach_item .progressBar {
+  display: none;
+  position: absolute;
+  bottom: 19px;
+  width: 173px;
+  height: 8px;
+  border: 1px solid #cccccc;
+  padding: 1px;
+}
+.uploader-dnd-area .attach_item .progressBar .fill {
+  height: 8px;
+  background: url(/assets/uploader/progressBarFillBg.png) repeat-x;
+}
+
+.uploader-dnd-area .attach_item.loading .progressBar {
+  display: block;
 }

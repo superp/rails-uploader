@@ -48,11 +48,23 @@ module Uploader
         @value ||= @object.fileupload_asset(method_name)
       end
       
+      def values
+        Array.wrap(value)
+      end
+      
+      def exists?
+        values.map(&:persisted?).any?
+      end
+      
+      def klass
+        @klass ||= @object.class.fileupload_klass(method_name)
+      end
+      
       def attachments_path(options = {})
         options = {
           :guid => @object.fileupload_guid, 
           :assetable_type => @object.class.name,
-          :klass => @object.class.fileupload_klass(method_name)
+          :klass => klass.to_s
         }.merge(options)
         
         options[:assetable_id] = @object.id if @object.persisted?

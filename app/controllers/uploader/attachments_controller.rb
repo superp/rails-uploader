@@ -26,9 +26,9 @@ module Uploader
       
       def render_resourse(record, status = 200)
         if record.errors.empty?
-          render_json(record.to_json, status)
+          render_json([record].to_json(:root => false), status)
         else
-          render_json(record.errors.to_json, 422)
+          render_json([record.errors].to_json, 422)
         end
       end
       

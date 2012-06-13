@@ -71,8 +71,8 @@ module Uploader
       end
       
       def fileupload_multiple?(method)
-        association = self.class.reflect_on_association(method)
-        association && association.collection? 
+        association = self.class.reflect_on_association(method.to_sym)
+        !!(association && association.collection?)
       end
       
       # Find or build new asset object

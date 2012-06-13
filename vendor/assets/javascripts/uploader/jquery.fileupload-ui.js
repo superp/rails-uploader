@@ -133,6 +133,7 @@
                 var that = $(this).data('fileupload'),
                     template,
                     preview;
+                
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = ($.isArray(data.result) &&
@@ -362,6 +363,7 @@
             if (result instanceof $) {
                 return result;
             }
+            
             return $(this.options.templatesContainer).html(result).children();
         },
 
@@ -537,13 +539,13 @@
                     this._startHandler
                 )
                 .delegate(
-                    '.cancel button',
+                    '.cancel a',
                     'click.' + this.options.namespace,
                     eventData,
                     this._cancelHandler
                 )
                 .delegate(
-                    '.delete button',
+                    '.delete a',
                     'click.' + this.options.namespace,
                     eventData,
                     this._deleteHandler
@@ -556,8 +558,8 @@
             this._destroyButtonBarEventHandlers();
             options.filesContainer
                 .undelegate('.start button', 'click.' + options.namespace)
-                .undelegate('.cancel button', 'click.' + options.namespace)
-                .undelegate('.delete button', 'click.' + options.namespace);
+                .undelegate('.cancel a', 'click.' + options.namespace)
+                .undelegate('.delete a', 'click.' + options.namespace);
             parentWidget.prototype._destroyEventHandlers.call(this);
         },
 
