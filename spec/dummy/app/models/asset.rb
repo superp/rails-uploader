@@ -21,7 +21,7 @@
 #  index_assets_on_user_id                                   (user_id)
 #
 class Asset < ActiveRecord::Base
-  attr_accessible :data
+  include Uploader::Asset
   
-  belongs_to :assetable, :polymorphic => true 
+  belongs_to :assetable, :polymorphic => true
 end

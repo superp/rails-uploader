@@ -1,8 +1,9 @@
 source "http://rubygems.org"
 gemspec
 
-gem "rails", "3.2.3"
+gem "rails", "3.2.6"
 gem "sqlite3"
+gem "mini_magick"
 
 # jquery-rails is used by the dummy application
 gem "jquery-rails"

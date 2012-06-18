@@ -21,7 +21,7 @@ module Uploader
     
       def find_klass
         @klass = params[:klass].blank? ? nil : params[:klass].safe_constantize
-        raise ActiveRecord::RecordNotFound.new("Class not found #{params[:klass]}") if @klass.nil?
+        raise ActionController::RoutingError.new("Class not found #{params[:klass]}") if @klass.nil?
       end
       
       def render_resourse(record, status = 200)
