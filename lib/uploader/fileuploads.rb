@@ -39,8 +39,8 @@ module Uploader
     module ClassMethods
       # Update reflection klass by guid
       def fileupload_update(record_id, guid, method)
-        klass = fileupload_klass(method)
-        klass.where(:assetable_type => name, :guid => guid).update_all(["assetable_id = ?, guid = ?", record_id, nil])
+        query = fileupload_klass(method).where(:guid => guid, :assetable_type => base_class.name.to_s)
+        query.update_all(:assetable_id => record_id, :guid => nil)
       end
       
       # Find asset by guid
