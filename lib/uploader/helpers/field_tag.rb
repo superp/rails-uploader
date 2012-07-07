@@ -63,7 +63,7 @@ module Uploader
       def attachments_path(options = {})
         options = {
           :guid => @object.fileupload_guid, 
-          :assetable_type => @object.class.name,
+          :assetable_type => @object.class.base_class.name.to_s,
           :klass => klass.to_s
         }.merge(options)
         
