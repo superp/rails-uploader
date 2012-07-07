@@ -1,5 +1,5 @@
 <%= content_tag(:div, :id => field.id, :class => "uploader-dnd-area") do -%>
-  <%= hidden_field(field.object_name, :fileupload_guid) if field.object.new_record? %>
+  <%= hidden_field(field.object_name, :fileupload_guid, :object => field.object) if field.object.new_record? %>
   
   <div class="uploader-files"></div>
   
