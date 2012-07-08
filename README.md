@@ -1,8 +1,10 @@
-= HTML5 File uploader for rails
+# HTML5 File uploader for rails
 
 This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
 
-== Install
+![Uploader in use](...)
+
+## Install
 
 In Gemfile:
 
@@ -10,12 +12,15 @@ In Gemfile:
 
 In routes:  
 
+``` ruby
   mount Uploader::Engine => '/uploader'
+```
 
-== Usage
+## Usage
 
 Architecture to store uploaded files (cancan integration):
 
+``` ruby
   class Asset < ActiveRecord::Base
     include Uploader::Asset
     
@@ -47,20 +52,25 @@ Architecture to store uploaded files (cancan integration):
     validates_integrity_of :data
     validates_filesize_of :data, :maximum => 2.megabytes.to_i
   end
+```
 
 For example user has one picture:
 
+``` ruby
   class User < ActiveRecord::Base
     has_one :picture, :as => :assetable, :dependent => :destroy
     
     fileuploads :picture
   end
+```
 
 Find asset by foreign key or guid:
 
+``` ruby
   @user.fileupload_asset(:picture)
+```
 
-=== Include assets
+### Include assets
 
 Javascripts:
 
@@ -70,17 +80,28 @@ Stylesheets:
 
   *= require uploader/application  
   
-=== Views
+### Views
 
+``` ruby
   <%= uploader_field_tag :article, :photo %>
+```
 
-=== Formtastic
+or FormBuilder:
 
+``` ruby
+  <%= form.uploader_field :photo %>
+```
+
+### Formtastic
+
+``` ruby
   <%= f.input :picture, :as => :uploader %>
+```
 
-=== SimpleForm
+### SimpleForm
 
+``` ruby
   <%= f.input :picture, :as => :uploader %>
-  
+```
 
 Copyright (c) 2012 Aimbulance, released under the MIT license

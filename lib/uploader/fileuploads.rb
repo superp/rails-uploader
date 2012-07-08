@@ -51,7 +51,13 @@ module Uploader
       
       # Find class by reflection
       def fileupload_klass(method)
-        reflections[method.to_sym].klass
+        reflect_on_association(method.to_sym).klass
+      end
+
+      unless respond_to?(:base_class)
+        def base_class
+          self
+        end
       end
     end
     
