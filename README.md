@@ -2,7 +2,7 @@
 
 This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
 
-![Uploader in use](...)
+![Uploader in use](http://img39.imageshack.us/img39/2206/railsuploader.png)
 
 ## Install
 
