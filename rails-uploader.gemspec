@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "rails-uploader"
   s.homepage = "https://github.com/superp/rails-uploader"
   
-  s.files = Dir["{app,lib,config,vendor}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,lib,config,vendor}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["{spec}/**/*"]
-  s.extra_rdoc_files = ["README.rdoc"]
+  s.extra_rdoc_files = ["README.md"]
   s.require_paths = ["lib"]
   
   s.add_development_dependency "sqlite3"
