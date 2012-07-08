@@ -2,6 +2,8 @@
 
 This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
 
+Preview:
+
 ![Uploader in use](http://img39.imageshack.us/img39/2206/railsuploader.png)
 
 ## Install
@@ -13,7 +15,7 @@ In Gemfile:
 In routes:  
 
 ``` ruby
-  mount Uploader::Engine => '/uploader'
+mount Uploader::Engine => '/uploader'
 ```
 
 ## Usage
@@ -21,87 +23,99 @@ In routes:
 Architecture to store uploaded files (cancan integration):
 
 ``` ruby
-  class Asset < ActiveRecord::Base
-    include Uploader::Asset
+class Asset < ActiveRecord::Base
+  include Uploader::Asset
+  
+  def uploader_create(params, request = nil)
+    ability = Ability.new(request.env['warden'].user)
     
-    def uploader_create(params, request = nil)
-      ability = Ability.new(request.env['warden'].user)
-      
-      if ability.can? :create, self
-        self.user = request.env['warden'].user
-        super
-      else
-        errors.add(:id, :access_denied)
-      end
-    end
-    
-    def uploader_destroy(params, request = nil)
-      ability = Ability.new(request.env['warden'].user)
-      
-      if ability.can? :delete, self
-        super
-      else
-        errors.add(:id, :access_denied)
-      end
+    if ability.can? :create, self
+      self.user = request.env['warden'].user
+      super
+    else
+      errors.add(:id, :access_denied)
     end
   end
   
-  class Picture < Asset
-    mount_uploader :data, PictureUploader
+  def uploader_destroy(params, request = nil)
+    ability = Ability.new(request.env['warden'].user)
     
-    validates_integrity_of :data
-    validates_filesize_of :data, :maximum => 2.megabytes.to_i
+    if ability.can? :delete, self
+      super
+    else
+      errors.add(:id, :access_denied)
+    end
   end
+end
+
+class Picture < Asset
+  mount_uploader :data, PictureUploader
+  
+  validates_integrity_of :data
+  validates_filesize_of :data, :maximum => 2.megabytes.to_i
+end
 ```
 
 For example user has one picture:
 
 ``` ruby
-  class User < ActiveRecord::Base
-    has_one :picture, :as => :assetable, :dependent => :destroy
-    
-    fileuploads :picture
-  end
+class User < ActiveRecord::Base
+  has_one :picture, :as => :assetable, :dependent => :destroy
+  
+  fileuploads :picture
+end
 ```
 
 Find asset by foreign key or guid:
 
 ``` ruby
-  @user.fileupload_asset(:picture)
+@user.fileupload_asset(:picture)
 ```
 
 ### Include assets
 
 Javascripts:
 
-  //= require uploader/application
+``` ruby
+//= require uploader/application
+```
 
 Stylesheets:
 
-  *= require uploader/application  
-  
+``` ruby
+*= require uploader/application  
+```
+
 ### Views
 
 ``` ruby
-  <%= uploader_field_tag :article, :photo %>
+<%= uploader_field_tag :article, :photo %>
 ```
 
 or FormBuilder:
 
 ``` ruby
-  <%= form.uploader_field :photo %>
+<%= form.uploader_field :photo %>
 ```
 
 ### Formtastic
 
 ``` ruby
-  <%= f.input :picture, :as => :uploader %>
+<%= f.input :picture, :as => :uploader %>
 ```
 
 ### SimpleForm
 
 ``` ruby
-  <%= f.input :picture, :as => :uploader %>
+<%= f.input :picture, :as => :uploader %>
 ```
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
 Copyright (c) 2012 Aimbulance, released under the MIT license
