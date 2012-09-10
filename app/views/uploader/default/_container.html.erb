@@ -34,7 +34,9 @@
           paramName: "asset[data]",
           formData: function(form){ return []; },
           filesContainer: container,
-          namespace: 'uploader'
+          namespace: 'uploader',
+          uploadTemplateId: 'template-upload-<%= field.klass %>',
+          downloadTemplateId: 'template-download-<%= field.klass %>'
         });
         
         <% if field.exists? -%>
