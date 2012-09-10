@@ -28,14 +28,3 @@
   direction: ltr;
   cursor: pointer;
 }
-
-/* Fix for IE 6: */
-*html .fileinput-button {
-  line-height: 31px;
-  margin: 1px -3px 0 0;
-}
-
-/* Fix for IE 7: */
-*+html .fileinput-button {
-  margin: 1px 0 0 0;
-}
