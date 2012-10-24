@@ -91,7 +91,7 @@ class User
 
   has_one :picture, :as => :assetable
 
-  fileuploads :picture, :use_attr_accessible => false
+  fileuploads :picture
 end
 ```
 

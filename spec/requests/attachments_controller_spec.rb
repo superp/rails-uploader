@@ -35,12 +35,4 @@ describe Uploader::AttachmentsController do
       post "/uploader/attachments", {:klass => "wrong"}
     }.should raise_error(ActionController::RoutingError)
   end
-
-  it "should obey use_attr_accessible" do
-    @no_attr_article = FactoryGirl.create(:no_attr_article)
-    @title = 'title'
-
-    @no_attr_article.update_attributes(:title => @title)
-    @no_attr_article.title.should == @title
-  end
 end

@@ -6,12 +6,5 @@ class CreateArticles < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    create_table :no_attr_articles do |t|
-      t.string :title
-      t.text :content
-
-      t.timestamps
-    end
   end
 end

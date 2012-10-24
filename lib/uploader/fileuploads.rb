@@ -17,7 +17,6 @@ module Uploader
       #
       def fileuploads(*args)
         options = args.extract_options!
-        options[:use_attr_accessible] = true if !options.has_key?(:use_attr_accessible)
         
         class_attribute :fileuploads_options, :instance_writer => false
         self.fileuploads_options = options
@@ -29,7 +28,7 @@ module Uploader
           include InstanceMethods
           extend ClassMethods
           
-          attr_accessible :fileupload_guid if options[:use_attr_accessible]
+          attr_accessible :fileupload_guid
           after_save :fileuploads_update, :if => :fileupload_changed?
           
           fileuploads_columns.each { |asset| accepts_nested_attributes_for asset, :allow_destroy => true }
