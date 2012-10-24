@@ -6,3 +6,10 @@ FactoryGirl.define do
     content "MyText"
   end
 end
+
+FactoryGirl.define do
+  factory :no_attr_article do
+    title "MyString"
+    content "MyText"
+  end
+end

@@ -72,6 +72,29 @@ Find asset by foreign key or guid:
 @user.fileupload_asset(:picture)
 ```
 
+### Mongoid
+
+No parent asset model is required, one only has to `include Uploader::Asset::Mongoid` into the
+model that should act like an asset:
+
+``` ruby
+class Picture
+  include Mongoid::Document
+  include Uploader::Asset::Mongoid
+
+  belongs_to :user
+end
+
+class User
+  include Mongoid::Document
+  include Uploader::Fileuploads
+
+  has_one :picture, :as => :assetable
+
+  fileuploads :picture, :use_attr_accessible => false
+end
+```
+
 ### Include assets
 
 Javascripts:

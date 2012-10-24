@@ -1,5 +1,36 @@
 module Uploader
   module Asset
+    module Mongoid
+      def self.included(klass)
+        klass.send(:include, Uploader::Asset)
+
+        klass.instance_eval do
+          field :guid, type: String
+          field :assetable_type, type: String
+          field :assetable_id, type: String
+        end
+      end
+
+      def as_json(options = {})
+        json_data = super
+        json_data['filename'] = File.basename(data.path)
+        json_data['size'] = data.file.size
+        json_data['id'] = json_data['_id']
+
+        if data.respond_to?(:thumb)
+          json_data['thumb_url'] = data.thumb.url
+        end
+
+        json_data
+      end
+
+      class << self
+        def include_root_in_json
+          false
+        end
+      end
+    end
+
     # Save asset
     # Usage:
     #
