@@ -6,7 +6,7 @@ class MongoidArticle
 
   has_one :mongoid_picture, :as => :assetable
 
-  fileuploads :mongoid_picture, :use_attr_accessible => false
+  fileuploads :mongoid_picture
 end
 
 class MongoidPicture
