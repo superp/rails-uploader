@@ -133,6 +133,16 @@ or FormBuilder:
 <%= f.input :picture, :as => :uploader %>
 ```
 
+#### Confirming deletions
+
+This is only working in Formtastic and FormBuilder:
+
+``` ruby
+# formtastic
+<%= f.input :picture, :as => :uploader, :confirm_delete => true %>
+# the i18n lookup key would be en.formtastic.delete_confirmations.picture
+```
+
 ## Contributing
 
 1. Fork it
