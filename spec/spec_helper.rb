@@ -29,6 +29,10 @@ end
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
+# Mongoid
+require 'mongoid'
+Mongoid.load!('spec/mongoid.yml')
+
 RSpec.configure do |config|
   # Remove this line if you don't want RSpec's should and should_not
   # methods or matchers
@@ -39,14 +43,17 @@ RSpec.configure do |config|
   config.mock_with :rspec
   
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner[:active_record].strategy = :truncation
+    DatabaseCleaner[:mongoid].strategy = :truncation
   end
 
   config.before(:all) do
-    DatabaseCleaner.start
+    DatabaseCleaner[:active_record].start
+    DatabaseCleaner[:mongoid].start
   end
 
   config.after(:all) do
-    DatabaseCleaner.clean
+    DatabaseCleaner[:active_record].clean
+    DatabaseCleaner[:mongoid].clean
   end
 end
