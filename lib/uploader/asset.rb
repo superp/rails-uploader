@@ -6,8 +6,6 @@ module Uploader
 
         klass.instance_eval do
           field :guid, type: String
-          field :assetable_type, type: String
-          field :assetable_id, type: String
         end
       end
 

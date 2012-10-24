@@ -13,7 +13,7 @@ class MongoidPicture
   include Mongoid::Document
   include Uploader::Asset::Mongoid
 
-  belongs_to :mongoid_article
+  belongs_to :assetable, polymorphic: true
 end
 
 describe Uploader::Asset::Mongoid do
@@ -30,7 +30,11 @@ describe Uploader::Asset::Mongoid do
   it "should update asset target_id by guid" do
     MongoidArticle.fileupload_update(1000, @picture.guid, :mongoid_picture)
     @picture.reload
-    @picture.assetable_id.should == "1000"
+    @picture.assetable_id.should == 1000
     @picture.guid.should be_nil
+  end
+
+  after do
+    MongoidPicture.destroy_all
   end
 end
