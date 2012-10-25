@@ -1,10 +1,14 @@
 module Uploader
   module Asset
-    module Mongoid
-      def self.included(klass)
-        klass.send(:include, Uploader::Asset)
+    def self.included(base)
+      base.send(:include, Uploader::Asset::AssetProcessor)
+    end
 
-        klass.instance_eval do
+    module Mongoid
+      def self.included(base)
+        base.send(:include, Uploader::Asset::AssetProcessor)
+
+        base.instance_eval do
           field :guid, type: String
         end
       end
@@ -22,6 +26,10 @@ module Uploader
         json_data
       end
 
+      def assetable_id_format(assetable_id)
+        Moped::BSON::ObjectId.from_string(assetable_id)
+      end
+
       class << self
         def include_root_in_json
           false
@@ -29,43 +37,55 @@ module Uploader
       end
     end
 
-    # Save asset
-    # Usage:
-    #
-    #   class Asset < ActiveRecord::Base
-    #     include Uploader::Asset
-    #     
-    #     def uploader_create(params, request = nil)
-    #       self.user = request.env['warden'].user
-    #       super
-    #     end
-    #   end
-    #
-    def uploader_create(params, request = nil)
-      self.guid = params[:guid]
-      self.assetable_type = params[:assetable_type]
-      self.assetable_id = params[:assetable_id]
-      save
+    module AssetProcessor
+      # Save asset
+      # Usage:
+      #
+      #   class Asset < ActiveRecord::Base
+      #     include Uploader::Asset
+      #     
+      #     def uploader_create(params, request = nil)
+      #       self.user = request.env['warden'].user
+      #       super
+      #     end
+      #   end
+      #
+      def uploader_create(params, request = nil)
+        begin
+          self.guid = params[:guid]
+          self.assetable_type = params[:assetable_type]
+          self.assetable_id = assetable_id_format(params[:assetable_id])
+          save
+        rescue => e
+          p e
+
+          raise e
+        end
+      end
+      
+      # Destroy asset
+      # Usage (cancan example):
+      #
+      #   class Asset < ActiveRecord::Base
+      #     include Uploader::Asset
+      #     
+      #     def uploader_destroy(params, request = nil)
+      #       ability = Ability.new(request.env['warden'].user)
+      #       if ability.can? :delete, self
+      #         super
+      #       else
+      #         errors.add(:id, :access_denied)
+      #       end
+      #     end
+      #   end
+      #
+      def uploader_destroy(params, request)
+        destroy
+      end
     end
-    
-    # Destroy asset
-    # Usage (cancan example):
-    #
-    #   class Asset < ActiveRecord::Base
-    #     include Uploader::Asset
-    #     
-    #     def uploader_destroy(params, request = nil)
-    #       ability = Ability.new(request.env['warden'].user)
-    #       if ability.can? :delete, self
-    #         super
-    #       else
-    #         errors.add(:id, :access_denied)
-    #       end
-    #     end
-    #   end
-    #
-    def uploader_destroy(params, request)
-      destroy
+
+    def assetable_id_format(assetable_id)
+      assetable_id
     end
   end
 end

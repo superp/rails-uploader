@@ -3,7 +3,13 @@ module Uploader
     def self.included(base)
       base.send :extend, SingletonMethods
     end
-    
+
+    module Mongoid
+      def self.included(base)
+        base.send :include, Uploader::Fileuploads
+      end
+    end
+
     module SingletonMethods
       # Join ActiveRecord object with uploaded file
       # Usage:
