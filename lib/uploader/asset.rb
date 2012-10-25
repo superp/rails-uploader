@@ -51,16 +51,10 @@ module Uploader
       #   end
       #
       def uploader_create(params, request = nil)
-        begin
-          self.guid = params[:guid]
-          self.assetable_type = params[:assetable_type]
-          self.assetable_id = assetable_id_format(params[:assetable_id])
-          save
-        rescue => e
-          p e
-
-          raise e
-        end
+        self.guid = params[:guid]
+        self.assetable_type = params[:assetable_type]
+        self.assetable_id = assetable_id_format(params[:assetable_id]) if params[:assetable_id]
+        save
       end
       
       # Destroy asset
