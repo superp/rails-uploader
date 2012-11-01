@@ -8,6 +8,10 @@ module Uploader
       def self.included(base)
         base.send :include, Uploader::Fileuploads
       end
+
+      def self.include_root_in_json
+        false
+      end
     end
 
     module SingletonMethods
