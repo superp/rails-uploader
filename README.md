@@ -118,4 +118,4 @@ or FormBuilder:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-Copyright (c) 2012 Aimbulance, released under the MIT license
+Copyright (c) 2013 Fodojo, released under the MIT license
