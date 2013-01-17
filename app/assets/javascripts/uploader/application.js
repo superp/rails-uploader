@@ -5,5 +5,4 @@
 //= require uploader/jquery.iframe-transport
 //= require uploader/jquery.fileupload
 //= require uploader/jquery.fileupload-ui
-//= require uploader/init
 
