@@ -63,6 +63,9 @@ class User < ActiveRecord::Base
   has_one :picture, :as => :assetable, :dependent => :destroy
   
   fileuploads :picture
+
+  # If your don't use strong_parameters, uncomment next line
+  # attr_accessible :fileupload_guid
 end
 ```
 
