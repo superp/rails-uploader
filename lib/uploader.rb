@@ -10,7 +10,7 @@ module Uploader
     autoload :FormBuilder, 'uploader/helpers/form_builder'
     autoload :FieldTag, 'uploader/helpers/field_tag'
   end
-  
+
   def self.guid
     SecureRandom.base64(15).tr('+/=', 'xyz').slice(0, 10)
   end
@@ -24,6 +24,11 @@ module Uploader
       list << Pathname.new(path).relative_path_from(root_path.join('vendor/assets/javascripts')).to_s
       list
     end
+  end
+
+  def self.constantize(klass)
+    return if klass.blank?
+    klass.safe_constantize
   end
 end
 

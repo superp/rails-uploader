@@ -55,6 +55,10 @@ module Uploader
       def exists?
         values.map(&:persisted?).any?
       end
+
+      def sortable?
+        @options[:sortable] == true
+      end
       
       def klass
         @klass ||= @object.class.fileupload_klass(method_name)

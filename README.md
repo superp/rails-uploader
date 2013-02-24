@@ -98,19 +98,19 @@ Stylesheets:
 or FormBuilder:
 
 ``` ruby
-<%= form.uploader_field :photo %>
+<%= form.uploader_field :photo, :sortable => true %>
 ```
 
 ### Formtastic
 
 ``` ruby
-<%= f.input :picture, :as => :uploader %>
+<%= f.input :pictures, :as => :uploader %>
 ```
 
 ### SimpleForm
 
 ``` ruby
-<%= f.input :picture, :as => :uploader %>
+<%= f.input :pictures, :as => :uploader, :input_html => {:sortable => true} %>
 ```
 
 ## Contributing
