@@ -6,3 +6,4 @@ FactoryGirl.define do
     content "MyText"
   end
 end
+

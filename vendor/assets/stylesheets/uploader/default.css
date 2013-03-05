@@ -35,7 +35,7 @@
   line-height: 31px;
 }
 .uploader-button {
-	display: block;
+	display: inline-block;
 	background: #972da0;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#982da1', endColorstr='#892891'); 
 	background: -webkit-linear-gradient(left top, left bottom, #982da1, #892891); 

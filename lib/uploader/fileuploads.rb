@@ -3,7 +3,17 @@ module Uploader
     def self.included(base)
       base.send :extend, SingletonMethods
     end
-    
+
+    module Mongoid
+      def self.included(base)
+        base.send :include, Uploader::Fileuploads
+      end
+
+      def self.include_root_in_json
+        false
+      end
+    end
+
     module SingletonMethods
       # Join ActiveRecord object with uploaded file
       # Usage:
@@ -77,7 +87,11 @@ module Uploader
       
       def fileupload_multiple?(method)
         association = self.class.reflect_on_association(method.to_sym)
-        !!(association && association.collection?)
+
+        # many? for Mongoid, :collection? for AR
+        method = association.respond_to?(:many?) ? :many? : :collection?
+
+        !!(association && association.send(method))
       end
       
       # Find or build new asset object
