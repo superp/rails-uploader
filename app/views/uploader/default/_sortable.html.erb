@@ -1,0 +1,24 @@
+<script type="text/javascript">
+  $(function() {
+    var container, data;
+
+    container = $("#<%= field.id %> div.uploader-files");
+
+    container.sortable({
+      placeholder: "attach_item",
+      cursor: "move",
+      update: function(event, ui) {
+        data = $(this).sortable("serialize", {key: "assets[]"});
+
+        $.rails.ajax({
+          url: "<%= uploader.attachment_path(field.klass) %>",
+          type: "PUT",
+          dataType: "json",
+          data: data + "&klass=<%= field.klass %>"
+        });
+      }
+    });
+
+    container.disableSelection();
+  });
+</script>

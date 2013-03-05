@@ -63,6 +63,9 @@ class User < ActiveRecord::Base
   has_one :picture, :as => :assetable, :dependent => :destroy
   
   fileuploads :picture
+
+  # If your don't use strong_parameters, uncomment next line
+  # attr_accessible :fileupload_guid
 end
 ```
 
@@ -118,19 +121,19 @@ Stylesheets:
 or FormBuilder:
 
 ``` ruby
-<%= form.uploader_field :photo %>
+<%= form.uploader_field :photo, :sortable => true %>
 ```
 
 ### Formtastic
 
 ``` ruby
-<%= f.input :picture, :as => :uploader %>
+<%= f.input :pictures, :as => :uploader %>
 ```
 
 ### SimpleForm
 
 ``` ruby
-<%= f.input :picture, :as => :uploader %>
+<%= f.input :pictures, :as => :uploader, :input_html => {:sortable => true} %>
 ```
 
 #### Confirming deletions
@@ -151,4 +154,4 @@ This is only working in Formtastic and FormBuilder:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-Copyright (c) 2012 Aimbulance, released under the MIT license
+Copyright (c) 2013 Fodojo, released under the MIT license

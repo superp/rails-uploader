@@ -132,6 +132,7 @@ input[disabled].uploader-button.gray {
   position: relative;
   float: left;
   margin: 0 20px 20px 0;
+  background: #fff;
 }
 .uploader-dnd-area .attach_item:hover {
   -moz-box-shadow: 0 0 2px #ccc;

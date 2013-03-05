@@ -21,10 +21,12 @@
 	<%= render :partial => "uploader/#{field.theme}/init", :locals => {:field => field} %>
 	<%= render :partial => "uploader/#{field.theme}/upload", :locals => {:field => field} %>
   <%= render :partial => "uploader/#{field.theme}/download", :locals => {:field => field} %>
+  <%= render :partial => "uploader/#{field.theme}/sortable", :locals => {:field => field} if field.sortable? %>
   
 	<script type="text/javascript">
     $(function() {
-      var container = $("#<%= field.id %> div.uploader-files");
+      var uploader, container;
+      container = $("#<%= field.id %> div.uploader-files");
       
       $('#<%= field.id %> input[type="file"]').bind("init.uploader", function(e){
         $(this).fileupload({
@@ -51,7 +53,8 @@
         <% end -%>
         
         <% if field.exists? -%>
-          $(this).data("fileupload")
+          uploader = ($(this).data('blueimp-fileupload') || $(this).data('fileupload'));
+          uploader
             ._renderDownload(<%=raw field.values.to_json(:root => false) %>)
             .appendTo(container);
         <% end -%>
