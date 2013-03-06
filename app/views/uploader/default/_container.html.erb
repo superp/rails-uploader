@@ -4,21 +4,20 @@
   <div class="uploader-files"></div>
   
 	<div class="uploader-dnd-hints">  
-	  <button class="uploader-button gray fileinput-button">
+	  <span class="uploader-button gray fileinput-button">
       <span><%= I18n.t('uploader.button') %></span>
       <%= fields_for field.object do |f| -%>
 	      <%= f.fields_for field.method_name, field.klass.new do |m| -%>
           <%= m.file_field(:data, field.input_html) %>
 	      <% end -%>
 	    <% end -%>
-    </button>
+    </span>
     
 	  <div class="uploader-dnd-hint">
 		  <%= I18n.t('uploader.or') %><span><%= I18n.t('uploader.drop') %></span>
 	  </div>
 	</div>
 	
-	<%= render :partial => "uploader/#{field.theme}/init", :locals => {:field => field} %>
 	<%= render :partial => "uploader/#{field.theme}/upload", :locals => {:field => field} %>
   <%= render :partial => "uploader/#{field.theme}/download", :locals => {:field => field} %>
   <%= render :partial => "uploader/#{field.theme}/sortable", :locals => {:field => field} if field.sortable? %>
@@ -28,7 +27,7 @@
       var uploader, container;
       container = $("#<%= field.id %> div.uploader-files");
       
-      $('#<%= field.id %> input[type="file"]').bind("init.uploader", function(e){
+      $('#<%= field.id %> input[type="file"]').each(function(e) {
         $(this).fileupload({
           dataType: 'json',
           dropZone: $("#<%= field.id %>"),
@@ -40,6 +39,17 @@
           uploadTemplateId: 'template-upload-<%= field.klass %>',
           downloadTemplateId: 'template-download-<%= field.klass %>'
         });
+
+        <% if field.confirm_delete -%>
+          var fu = $(this).data("fileupload")
+          fu.options._oldDestroy = fu.options.destroy
+
+          fu.options.destroy = function(e, data) {
+            if (confirm("<%= field.confirm_message.gsub('"', '\\"') %>")) {
+              fu.options._oldDestroy.call(this, e, data);
+            }
+          };
+        <% end -%>
         
         <% if field.exists? -%>
           uploader = ($(this).data('blueimp-fileupload') || $(this).data('fileupload'));

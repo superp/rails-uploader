@@ -1,7 +1,7 @@
 module Uploader
   module Helpers
     class FieldTag
-      attr_reader :template, :object, :theme
+      attr_reader :template, :object, :theme, :confirm_delete, :confirm_message
 
       delegate :uploader, :to => :template      
       
@@ -13,11 +13,13 @@ module Uploader
       #
       def initialize(object_name, method_name, template, options = {}) #:nodoc:
         options = { :object_name => object_name, :method_name => method_name }.merge(options)
-        
+
         @template, @options = template, options.dup
         
         @theme = (@options.delete(:theme) || "default")
         @value = @options.delete(:value) if @options.key?(:value)
+        @confirm_delete = @options.delete(:confirm_delete)
+        @confirm_message = @options.delete(:confirm_message)
         
         @object = @options.delete(:object) if @options.key?(:object)
         @object ||= @template.instance_variable_get("@#{object_name}")
