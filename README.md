@@ -98,6 +98,21 @@ class User
 end
 ```
 
+### Notice
+
+User method fileuploads only once pre model. So if you have many attached files, use this:
+
+``` ruby
+class User
+  include Uploader::Fileuploads
+
+  has_one :picture, :as => :assetable
+  has_one :avatar, :as => :assetable
+
+  fileuploads :picture, :avatar
+end
+
+
 ### Include assets
 
 Javascripts:
