@@ -1,4 +1,4 @@
-//= require jquery.ui.widget
+//= require uploader/jquery.ui.widget
 //= require uploader/locales/en
 //= require uploader/tmpl.min
 //= require uploader/load-image.min
