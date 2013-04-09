@@ -27,7 +27,7 @@
       var uploader, container;
       container = $("#<%= field.id %> div.uploader-files");
       
-      $('#<%= field.id %> input[type="file"]').each(function(e) {
+      $('#<%= field.id %> input[type="file"]').each(function(){
         $(this).fileupload({
           dataType: 'json',
           dropZone: $("#<%= field.id %>"),
@@ -39,17 +39,6 @@
           uploadTemplateId: 'template-upload-<%= field.klass %>',
           downloadTemplateId: 'template-download-<%= field.klass %>'
         });
-
-        <% if field.confirm_delete -%>
-          var fu = $(this).data("fileupload")
-          fu.options._oldDestroy = fu.options.destroy
-
-          fu.options.destroy = function(e, data) {
-            if (confirm("<%= field.confirm_message.gsub('"', '\\"') %>")) {
-              fu.options._oldDestroy.call(this, e, data);
-            }
-          };
-        <% end -%>
         
         <% if field.exists? -%>
           uploader = ($(this).data('blueimp-fileupload') || $(this).data('fileupload'));
