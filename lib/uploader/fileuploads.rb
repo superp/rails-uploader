@@ -55,7 +55,7 @@ module Uploader
       # Find asset by guid
       def fileupload_find(method, guid)
         klass = fileupload_klass(method)
-        klass.where(:guid => guid).first
+        klass.where(:guid => guid)
       end
       
       # Find class by reflection
