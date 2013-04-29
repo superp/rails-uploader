@@ -12,7 +12,7 @@ In Gemfile:
 
   gem "rails-uploader"
 
-In routes:  
+In routes:
 
 ``` ruby
 mount Uploader::Engine => '/uploader'
@@ -25,10 +25,10 @@ Architecture to store uploaded files (cancan integration):
 ``` ruby
 class Asset < ActiveRecord::Base
   include Uploader::Asset
-  
+
   def uploader_create(params, request = nil)
     ability = Ability.new(request.env['warden'].user)
-    
+
     if ability.can? :create, self
       self.user = request.env['warden'].user
       super
@@ -36,10 +36,10 @@ class Asset < ActiveRecord::Base
       errors.add(:id, :access_denied)
     end
   end
-  
+
   def uploader_destroy(params, request = nil)
     ability = Ability.new(request.env['warden'].user)
-    
+
     if ability.can? :delete, self
       super
     else
@@ -50,9 +50,19 @@ end
 
 class Picture < Asset
   mount_uploader :data, PictureUploader
-  
+
   validates_integrity_of :data
   validates_filesize_of :data, :maximum => 2.megabytes.to_i
+
+  # structure of returned json array of files. (used in Hash.to_json operation)
+  def serializable_hash options=nil
+    {
+        'id'  => id.to_s,
+        "filename" => File.basename(data.path),
+        "url" => data.url,
+        'thumb_url' => data.url(:thumb)
+    }
+  end
 end
 ```
 
@@ -61,7 +71,7 @@ For example user has one picture:
 ``` ruby
 class User < ActiveRecord::Base
   has_one :picture, :as => :assetable, :dependent => :destroy
-  
+
   fileuploads :picture
 
   # If your don't use strong_parameters, uncomment next line
@@ -124,7 +134,7 @@ Javascripts:
 Stylesheets:
 
 ``` ruby
-*= require uploader/application  
+*= require uploader/application
 ```
 
 ### Views
