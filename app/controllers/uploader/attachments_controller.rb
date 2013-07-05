@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Uploader
   class AttachmentsController < ActionController::Metal
     include AbstractController::Callbacks
@@ -43,8 +42,10 @@ module Uploader
       end
       
       def render_json(hash_or_object, status = 200)
+        ctype = self.env["HTTP_USER_AGENT"].include?('Android') ? 'text/plain' : "application/json"
+
         self.status = status
-        self.content_type = "application/json"
+        self.content_type = ctype
         self.response_body = hash_or_object.to_json(:root => false)
       end
   end
