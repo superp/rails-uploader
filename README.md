@@ -63,12 +63,13 @@ class Picture < Asset
   validates_filesize_of :data, :maximum => 2.megabytes.to_i
 
   # structure of returned json array of files. (used in Hash.to_json operation)
-  def serializable_hash options=nil
+  def serializable_hash(options=nil)
     {
-        'id'  => id.to_s,
+        "id" => id.to_s,
         "filename" => File.basename(data.path),
         "url" => data.url,
-        'thumb_url' => data.url(:thumb)
+        "thumb_url" => data.url(:thumb),
+        "public_token" => public_token
     }
   end
 end
@@ -129,43 +130,44 @@ class User
 
   fileuploads :picture, :avatar
 end
+```
 
 
 ### Include assets
 
 Javascripts:
 
-``` ruby
+```
 //= require uploader/application
 ```
 
 Stylesheets:
 
-``` ruby
+```
 *= require uploader/application
 ```
 
 ### Views
 
-``` ruby
+```erb
 <%= uploader_field_tag :article, :photo %>
 ```
 
 or FormBuilder:
 
-``` ruby
+```erb
 <%= form.uploader_field :photo, :sortable => true %>
 ```
 
 ### Formtastic
 
-``` ruby
+```erb
 <%= f.input :pictures, :as => :uploader %>
 ```
 
 ### SimpleForm
 
-``` ruby
+```erb
 <%= f.input :pictures, :as => :uploader, :input_html => {:sortable => true} %>
 ```
 
@@ -173,7 +175,7 @@ or FormBuilder:
 
 This is only working in Formtastic and FormBuilder:
 
-``` ruby
+``` erb
 # formtastic
 <%= f.input :picture, :as => :uploader, :confirm_delete => true %>
 # the i18n lookup key would be en.formtastic.delete_confirmations.picture
