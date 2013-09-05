@@ -48,19 +48,31 @@ module Uploader
     module ClassMethods
       # Update reflection klass by guid
       def fileupload_update(record_id, guid, method)
-        query = fileupload_klass(method).where(:guid => guid, :assetable_type => base_class.name.to_s)
-        query.update_all(:assetable_id => record_id, :guid => nil)
+        fileupload_scope(method, guid).update_all(:assetable_id => record_id, :guid => nil)
       end
       
-      # Find asset by guid
+      # Find asset(s) by guid
       def fileupload_find(method, guid)
-        klass = fileupload_klass(method)
-        klass.where(:guid => guid)
+        query = fileupload_scope(method, guid)
+        fileupload_multiple?(method) ? query.all : query.first
+      end
+
+      def fileupload_scope(method, guid)
+        fileupload_klass(method).where(:guid => guid, :assetable_type => base_class.name.to_s)
       end
       
       # Find class by reflection
       def fileupload_klass(method)
         reflect_on_association(method.to_sym).klass
+      end
+
+      def fileupload_multiple?(method)
+        association = reflect_on_association(method.to_sym)
+
+        # many? for Mongoid, :collection? for AR
+        method_name = association.respond_to?(:many?) ? :many? : :collection?
+
+        !!(association && association.send(method_name))
       end
 
       unless respond_to?(:base_class)
@@ -86,12 +98,7 @@ module Uploader
       end
       
       def fileupload_multiple?(method)
-        association = self.class.reflect_on_association(method.to_sym)
-
-        # many? for Mongoid, :collection? for AR
-        method = association.respond_to?(:many?) ? :many? : :collection?
-
-        !!(association && association.send(method))
+        self.class.fileupload_multiple?(method)
       end
       
       # Find or build new asset object

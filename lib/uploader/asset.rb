@@ -1,15 +1,24 @@
 module Uploader
   module Asset
     def self.included(base)
+      base.send(:extend, Uploader::Asset::ClassMethods)
       base.send(:include, Uploader::Asset::AssetProcessor)
+
+      base.instance_eval do
+        before_create :generate_public_token
+      end
     end
 
     module Mongoid
       def self.included(base)
+        base.send(:extend, Uploader::Asset::ClassMethods)
         base.send(:include, Uploader::Asset::AssetProcessor)
 
         base.instance_eval do
           field :guid, type: String
+          field :public_token, type: String
+
+          before_create :generate_public_token
         end
       end
 
@@ -33,6 +42,15 @@ module Uploader
       class << self
         def include_root_in_json
           false
+        end
+      end
+    end
+
+    module ClassMethods
+      def generate_token(column)
+        loop do
+          token = Uploader.guid
+          break token unless where({ column => token }).exists?
         end
       end
     end
@@ -75,6 +93,10 @@ module Uploader
       #
       def uploader_destroy(params, request)
         destroy
+      end
+
+      def generate_public_token
+        self.public_token = self.class.generate_token(:public_token)
       end
     end
 

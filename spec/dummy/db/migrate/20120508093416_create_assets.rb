@@ -7,7 +7,8 @@ class CreateAssets < ActiveRecord::Migration
       t.integer  "assetable_id",                                   :null => false
       t.string   "assetable_type",    :limit => 25,                :null => false
       t.string   "type",              :limit => 25
-      t.string   "guid",              :limit => 10
+      t.string   "guid",              :limit => 20
+      t.string   "public_token",      :limit => 20
       t.integer  "user_id"
     
       t.timestamps
@@ -15,5 +16,6 @@ class CreateAssets < ActiveRecord::Migration
     
     add_index "assets", ["assetable_type", "assetable_id"]
     add_index "assets", ["user_id"]
+    add_index "assets", ["public_token"]
   end
 end

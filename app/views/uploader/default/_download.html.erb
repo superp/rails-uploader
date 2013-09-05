@@ -3,7 +3,7 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
   <div id="asset_{%=file.id%}" class="attach_item template-download">
     <div class="buttons-panel">
-      <a href="#" class="del_btn delete" data-type="DELETE" data-url="/uploader/attachments/{%=file.id%}?klass=<%= field.klass %>"></a>
+      <a href="#" class="del_btn delete" data-type="DELETE" data-url="/uploader/attachments/{%=file.public_token%}?klass=<%= field.klass %>"></a>
     </div>
     <div class="thumbnail preview">
       <a href="{%=file.url%}" download="{%=file.filename%}">
@@ -11,7 +11,9 @@
       </a>
     </div>
     <div class="infoHolder">
-      <div class="fileName">{%=file.filename%}</div>
+      <div class="fileName">
+        <a href="{%=file.url%}" download="{%=file.filename%}">{%=file.filename%}</a>
+      </div>
       <div class="fileWeight">{%=o.formatFileSize(file.size)%}</div>
     </div>
   </div>

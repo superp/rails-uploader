@@ -10,12 +10,20 @@ Preview:
 
 In Gemfile:
 
-  gem "rails-uploader"
+```
+gem "rails-uploader"
+```
 
 In routes:
 
 ``` ruby
 mount Uploader::Engine => '/uploader'
+```
+
+Migration for ActiveRecord:
+
+```bash
+$> rake uploader:install:migrations
 ```
 
 ## Usage

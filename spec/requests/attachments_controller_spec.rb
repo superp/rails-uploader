@@ -26,8 +26,16 @@ describe Uploader::AttachmentsController do
     @asset = FactoryGirl.create(:picture)
     
     lambda {
-      delete "/uploader/attachments/#{@asset.id}", {:klass => "Picture"}
+      delete "/uploader/attachments/#{@asset.public_token}", {:klass => "Picture"}
     }.should change { Picture.count }.by(-1)
+  end
+
+  it "should not destroy asset with not exists guid" do
+    @asset = FactoryGirl.create(:picture)
+    
+    lambda {
+      delete "/uploader/attachments/wrong", {:klass => "Picture"}
+    }.should raise_error(ActionController::RoutingError)
   end
   
   it "should raise 404 error with wrong class" do

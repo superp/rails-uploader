@@ -8,7 +8,7 @@ describe Uploader do
   it "should generate random string" do
     value = Uploader.guid
     value.should_not be_blank
-    value.size.should == 10
+    value.size.should == 20
   end
   
   it "should find all precompile assets" do

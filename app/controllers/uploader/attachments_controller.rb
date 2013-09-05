@@ -3,6 +3,7 @@ module Uploader
     include AbstractController::Callbacks
   
     before_filter :find_klass
+    before_filter :find_asset, :only => [:destroy]
     
     def create
       @asset = @klass.new(params[:asset])
@@ -21,7 +22,6 @@ module Uploader
     end
 
     def destroy
-      @asset = @klass.find(params[:id])
       @asset.uploader_destroy(params, request)
       render_resourse(@asset, 200)
     end
@@ -31,6 +31,11 @@ module Uploader
       def find_klass
         @klass = Uploader.constantize(params[:klass])
         raise ActionController::RoutingError.new("Class not found #{params[:klass]}") if @klass.nil?
+      end
+
+      def find_asset
+        @asset = @klass.where(:public_token => params[:id]).first
+        raise ActionController::RoutingError.new("Asset not found by guid #{params[:id]}") if @asset.nil? 
       end
       
       def render_resourse(record, status = 200)
@@ -42,7 +47,7 @@ module Uploader
       end
       
       def render_json(hash_or_object, status = 200)
-        ctype = self.env["HTTP_USER_AGENT"].include?('Android') ? 'text/plain' : "application/json"
+        ctype = env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"].include?("Android") ? "text/plain" : "application/json"
 
         self.status = status
         self.content_type = ctype

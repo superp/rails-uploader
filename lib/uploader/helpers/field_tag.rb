@@ -9,7 +9,7 @@ module Uploader
       # Usage:
       #
       #   uploader = FieldTag.new(object_name, method_name, template, options)
-      #   uploader.to_s
+      #   uploader.render
       #
       def initialize(object_name, method_name, template, options = {}) #:nodoc:
         options = { :object_name => object_name, :method_name => method_name }.merge(options)
@@ -23,7 +23,7 @@ module Uploader
         @object ||= @template.instance_variable_get("@#{object_name}")
       end
 
-      def to_s(locals = {}) #:nodoc:
+      def render(locals = {}) #:nodoc:
         locals = { :field => self }.merge(locals)
         @template.render :partial => "uploader/#{@theme}/container", :locals => locals
       end

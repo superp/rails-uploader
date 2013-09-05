@@ -8,8 +8,7 @@ module Uploader
       #   <%= uploader_field_tag :article, :photo %>
       #
       def uploader_field_tag(object_name, method_name, options = {})
-        uploader = FieldTag.new(object_name, method_name, self, options)
-        uploader.to_s
+        FieldTag.new(object_name, method_name, self, options).render
       end
     end
   end

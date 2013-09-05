@@ -12,7 +12,7 @@ module Uploader
   end
 
   def self.guid
-    SecureRandom.base64(15).tr('+/=', 'xyz').slice(0, 10)
+    SecureRandom.base64(16).tr('+/=', 'xyz').slice(0, 20)
   end
   
   def self.root_path
