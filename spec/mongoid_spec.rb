@@ -13,6 +13,8 @@ class MongoidPicture
   include Mongoid::Document
   include Uploader::Asset::Mongoid
 
+  before_create :generate_public_token
+
   belongs_to :assetable, polymorphic: true
 end
 
