@@ -24,6 +24,4 @@ class Asset < ActiveRecord::Base
   include Uploader::Asset
   
   belongs_to :assetable, :polymorphic => true
-
-  before_create :generate_public_token
 end
