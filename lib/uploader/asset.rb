@@ -3,6 +3,10 @@ module Uploader
     def self.included(base)
       base.send(:extend, Uploader::Asset::ClassMethods)
       base.send(:include, Uploader::Asset::AssetProcessor)
+
+      base.instance_eval do
+        before_create :generate_public_token
+      end
     end
 
     module Mongoid
@@ -13,6 +17,8 @@ module Uploader
         base.instance_eval do
           field :guid, type: String
           field :public_token, type: String
+
+          before_create :generate_public_token
         end
       end
 
