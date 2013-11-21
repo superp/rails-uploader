@@ -1,7 +1,7 @@
 require 'formtastic'
 
 class UploaderInput
-  include Formtastic::Inputs::Base
+  include ::Formtastic::Inputs::Base
   
   def to_html
     input_wrapping do
