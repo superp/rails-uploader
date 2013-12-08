@@ -11,3 +11,4 @@ spec/dummy/public/uploads/
 spec/dummy/vendor/bundle/
 spec/dummy/log/development.log
 spec/dummy/db/test.sqlite3
+.DS_Store

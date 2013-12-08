@@ -20,8 +20,9 @@ module Uploader
   end
   
   def self.assets
-    Dir[root_path.join('vendor/assets/javascripts/uploader/**', '*.{js,css}')].inject([]) do |list, path|
-      list << Pathname.new(path).relative_path_from(root_path.join('vendor/assets/javascripts')).to_s
+    Dir[root_path.join('vendor/assets/**/uploader/**', '*.{js,css,png,gif}')].inject([]) do |list, path|
+      folder = path.split('/assets/')[1].split('/')[0]
+      list << Pathname.new(path).relative_path_from(root_path.join("vendor/assets/#{folder}")).to_s
       list
     end
   end
