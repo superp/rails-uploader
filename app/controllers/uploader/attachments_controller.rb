@@ -47,10 +47,8 @@ module Uploader
       end
       
       def render_json(hash_or_object, status = 200)
-        ctype = env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"].include?("Android") ? "text/plain" : "application/json"
-
         self.status = status
-        self.content_type = ctype
+        self.content_type = Uploader.content_type(env["HTTP_USER_AGENT"])
         self.response_body = hash_or_object.to_json(:root => false)
       end
   end

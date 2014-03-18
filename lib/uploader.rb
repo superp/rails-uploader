@@ -31,6 +31,19 @@ module Uploader
     return if klass.blank?
     klass.safe_constantize
   end
+
+  def self.content_type(user_agent)
+    return "application/json" if user_agent.blank?
+
+    ie_version = user_agent.scan(/(MSIE\s|rv:)([\d\.]+)/).flatten.last
+    
+    if user_agent.include?("Android") || (ie_version && ie_version.to_f <= 9.0) || (user_agent =~ /Trident\/[0-9\.]+\;/i)
+      "text/plain"
+    else
+      "application/json"
+    end
+  end
+
 end
 
 require 'uploader/engine'
