@@ -4,6 +4,7 @@ require 'securerandom'
 module Uploader
   autoload :Fileuploads, 'uploader/fileuploads'
   autoload :Asset, 'uploader/asset'
+  autoload :AssetInstance, 'uploader/asset_instance'
   
   module Helpers
     autoload :FormTagHelper, 'uploader/helpers/form_tag_helper'
