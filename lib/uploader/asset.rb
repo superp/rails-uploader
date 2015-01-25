@@ -100,8 +100,8 @@ module Uploader
       end
     end
 
-    def assetable_id_format(assetable_id=0)
-      assetable_id
+    def assetable_id_format(assetable_id)
+      assetable_id || 0
     end
   end
 end

@@ -133,6 +133,24 @@ end
 ```
 
 
+### Rails 4 compatable
+
+For Rails 4 compatable (for strong parameters issue) you have to add a permit_attribute method for your Asset instance model.
+
+``` ruby
+class Picture < Asset
+  include Uploader::AssetInstance
+
+  permit_attribute :data
+
+  mount_uploader :data, PictureUploader, :mount_on => :data_file_name
+
+  validates_integrity_of :data
+
+end
+```
+
+
 ### Include assets
 
 Javascripts:
