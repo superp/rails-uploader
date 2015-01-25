@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   
   s.add_dependency "jquery-ui-rails"
   
-  # For Rails 4 strong parameters compatable
+  # For compatible with Rails 4 strong parameters
   s.add_dependency "protected_attributes", ["~> 1.0.8"]
 
   s.add_development_dependency "sqlite3"

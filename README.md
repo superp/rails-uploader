@@ -133,9 +133,9 @@ end
 ```
 
 
-### Rails 4 compatable
+### Compatible with Rails 4.
 
-For Rails 4 compatable (for strong parameters issue) you have to add a permit_attribute method for your Asset instance model.
+For compatible wit Rails 4 (for strong parameters issue) you have to add a permit_attribute method for your Asset instance model.
 
 ``` ruby
 class Picture < Asset
