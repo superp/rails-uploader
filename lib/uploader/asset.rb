@@ -71,7 +71,7 @@ module Uploader
       def uploader_create(params, request = nil)
         self.guid = params[:guid]
         self.assetable_type = params[:assetable_type]
-        self.assetable_id = assetable_id_format(params[:assetable_id]) if params[:assetable_id]
+        self.assetable_id = assetable_id_format(params[:assetable_id])
         save
       end
       
@@ -100,7 +100,7 @@ module Uploader
       end
     end
 
-    def assetable_id_format(assetable_id)
+    def assetable_id_format(assetable_id=0)
       assetable_id
     end
   end
