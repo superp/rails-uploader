@@ -51,5 +51,6 @@ module Uploader
         self.content_type = Uploader.content_type(env["HTTP_USER_AGENT"])
         self.response_body = hash_or_object.to_json(:root => false)
       end
+      
   end
 end
