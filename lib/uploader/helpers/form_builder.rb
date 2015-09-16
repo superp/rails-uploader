@@ -9,7 +9,7 @@ module Uploader
       #   <%= end %>
       #
       def uploader_field(method, options = {})
-        @template.send("uploader_field_tag", @object_name, method, objectify_options(options))
+        @template.send(:uploader_field_tag, @object_name, method, objectify_options(options))
       end
     end
   end

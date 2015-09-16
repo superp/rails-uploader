@@ -28,19 +28,19 @@ module Uploader
       def fileuploads(*args)
         options = args.extract_options!
         
-        class_attribute :fileuploads_options, :instance_writer => false
+        class_attribute :fileuploads_options, instance_writer: false
         self.fileuploads_options = options
         
-        class_attribute :fileuploads_columns, :instance_writer => false
+        class_attribute :fileuploads_columns, instance_writer: false
         self.fileuploads_columns = args.map(&:to_sym)
         
         unless self.is_a?(ClassMethods)
           include InstanceMethods
           extend ClassMethods
           
-          after_save :fileuploads_update, :if => :fileupload_changed?
+          after_save :fileuploads_update, if: :fileupload_changed?
           
-          fileuploads_columns.each { |asset| accepts_nested_attributes_for asset, :allow_destroy => true }
+          fileuploads_columns.each { |asset| accepts_nested_attributes_for(asset, allow_destroy: true) }
         end
       end
     end
@@ -48,17 +48,17 @@ module Uploader
     module ClassMethods
       # Update reflection klass by guid
       def fileupload_update(record_id, guid, method)
-        fileupload_scope(method, guid).update_all(:assetable_id => record_id, :guid => nil)
+        fileupload_scope(method, guid).update_all(assetable_id: record_id, guid: nil)
       end
       
       # Find asset(s) by guid
       def fileupload_find(method, guid)
-        query = fileupload_scope(method, guid)
-        fileupload_multiple?(method) ? query.all : query.first
+        _query = fileupload_scope(method, guid)
+        fileupload_multiple?(method) ? _query : _query.first
       end
 
       def fileupload_scope(method, guid)
-        fileupload_klass(method).where(:guid => guid, :assetable_type => base_class.name.to_s)
+        fileupload_klass(method).where(guid: guid, assetable_type: base_class.name.to_s)
       end
       
       # Find class by reflection

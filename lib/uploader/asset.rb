@@ -69,7 +69,6 @@ module Uploader
       #   end
       #
       def uploader_create(params, request = nil)
-        
         self.guid = params[:guid]
         self.assetable_type = params[:assetable_type]
         self.assetable_id = assetable_id_format(params[:assetable_id])

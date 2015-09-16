@@ -3,7 +3,7 @@ module Uploader
     class FieldTag
       attr_reader :template, :object, :theme
 
-      delegate :uploader, :to => :template      
+      delegate :uploader, to: :template      
       
       # Wrapper for render uploader field
       # Usage:
@@ -12,7 +12,7 @@ module Uploader
       #   uploader.render
       #
       def initialize(object_name, method_name, template, options = {}) #:nodoc:
-        options = { :object_name => object_name, :method_name => method_name }.merge(options)
+        options = { object_name: object_name, method_name: method_name }.merge(options)
 
         @template, @options = template, options.dup
         
@@ -24,8 +24,8 @@ module Uploader
       end
 
       def render(locals = {}) #:nodoc:
-        locals = { :field => self }.merge(locals)
-        @template.render :partial => "uploader/#{@theme}/container", :locals => locals
+        locals = { field: self }.merge(locals)
+        @template.render(partial: "uploader/#{@theme}/container", locals: locals)
       end
       
       def id
@@ -66,9 +66,9 @@ module Uploader
       
       def attachments_path(options = {})
         options = {
-          :guid => @object.fileupload_guid, 
-          :assetable_type => @object.class.base_class.name.to_s,
-          :klass => klass.to_s
+          guid: @object.fileupload_guid,
+          assetable_type: @object.class.base_class.name.to_s,
+          klass: klass.to_s
         }.merge(options)
         
         options[:assetable_id] = @object.id if @object.persisted?
@@ -78,9 +78,9 @@ module Uploader
       
       def input_html
         @input_html ||= {
-          :"data-url" => attachments_path, 
-          :multiple => multiple?,
-          :class => "uploader"
+          data: {url: attachments_path},
+          multiple: multiple?,
+          class: "uploader"
         }.merge(@options[:input_html] || {})
       end
     end
