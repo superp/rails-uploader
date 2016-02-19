@@ -3,7 +3,7 @@ module Uploader
     module FormBuilder
       # Render uploader field
       # Usage:
-      #   
+      #
       #   <%= form_for @article do |f| %>
       #     <%= f.uploader_field :picture %>
       #   <%= end %>

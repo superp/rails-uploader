@@ -1,4 +1,7 @@
 require 'spec_helper'
+require 'mongoid'
+
+Mongoid.load!('spec/mongoid.yml', ENV['RAILS_ENV'])
 
 class MongoidArticle
   include Mongoid::Document

@@ -1,17 +1,12 @@
-# Tell Mongoid which environment this configuration is for.
 test:
-  # This starts the session configuration settings. You may have as
-  # many sessions as you like, but you must have at least 1 named
-  # 'default'.
-  sessions:
-    # Define the default session.
+  clients:
     default:
-      # A session can have any number of hosts. Usually 1 for a single
-      # server setup, and at least 3 for a replica set. Hosts must be
-      # an array of host:port pairs. This session is single server.
+      database: rails_uploader_test
       hosts:
         - localhost:27017
-      # Define the default database name.
-      database: rails_uploader_test
-  options:
-    include_root_in_json: false
+      options:
+        consistency: :strong
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0

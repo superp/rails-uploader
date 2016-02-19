@@ -1,24 +1,22 @@
 # Configure Rails Envinronment
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] = 'test'
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
-require "rails/test_help"
-require "rspec/rails"
-require "database_cleaner"
+require File.expand_path('../dummy/config/environment.rb', __FILE__)
+require 'database_cleaner'
 
 # Fixtures replacement with a straightforward definition syntax
 require 'factory_girl'
-FactoryGirl.definition_file_paths = [ File.expand_path("../factories/", __FILE__) ]
+FactoryGirl.definition_file_paths = [File.expand_path('../factories/', __FILE__)]
 FactoryGirl.find_definitions
 
 ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.perform_deliveries = true
-ActionMailer::Base.default_url_options[:host] = "test.com"
+ActionMailer::Base.default_url_options[:host] = 'test.com'
 
 Rails.backtrace_cleaner.remove_silencers!
 
 # Run any available migration
-ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
+ActiveRecord::Migrator.migrate File.expand_path('../dummy/db/migrate/', __FILE__)
 
 require 'carrierwave'
 CarrierWave.configure do |config|
@@ -29,10 +27,6 @@ end
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-# Mongoid
-require 'mongoid'
-Mongoid.load!('spec/mongoid.yml')
-
 RSpec.configure do |config|
   # Remove this line if you don't want RSpec's should and should_not
   # methods or matchers
@@ -41,19 +35,19 @@ RSpec.configure do |config|
 
   # == Mock Framework
   config.mock_with :rspec
-  
+
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = :truncation
-    DatabaseCleaner[:mongoid].strategy = :truncation
+    DatabaseCleaner[:mongoid].strategy = :truncation if Object.const_defined?('Mongoid')
   end
 
   config.before(:all) do
     DatabaseCleaner[:active_record].start
-    DatabaseCleaner[:mongoid].start
+    DatabaseCleaner[:mongoid].start if Object.const_defined?('Mongoid')
   end
 
   config.after(:all) do
     DatabaseCleaner[:active_record].clean
-    DatabaseCleaner[:mongoid].clean
+    DatabaseCleaner[:mongoid].clean if Object.const_defined?('Mongoid')
   end
 end

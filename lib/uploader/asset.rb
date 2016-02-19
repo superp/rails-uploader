@@ -27,10 +27,7 @@ module Uploader
         json_data['filename'] = File.basename(data.path)
         json_data['size'] = data.file.size
         json_data['id'] = json_data['_id']
-
-        if data.respond_to?(:thumb)
-          json_data['thumb_url'] = data.thumb.url
-        end
+        json_data['thumb_url'] = data.thumb.url if data.respond_to?(:thumb)
 
         json_data
       end
@@ -61,7 +58,7 @@ module Uploader
       #
       #   class Asset < ActiveRecord::Base
       #     include Uploader::Asset
-      #     
+      #
       #     def uploader_create(params, request = nil)
       #       self.user = request.env['warden'].user
       #       super
@@ -74,13 +71,13 @@ module Uploader
         self.assetable_id = assetable_id_format(params[:assetable_id])
         save
       end
-      
+
       # Destroy asset
       # Usage (cancan example):
       #
       #   class Asset < ActiveRecord::Base
       #     include Uploader::Asset
-      #     
+      #
       #     def uploader_destroy(params, request = nil)
       #       ability = Ability.new(request.env['warden'].user)
       #       if ability.can? :delete, self

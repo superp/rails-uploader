@@ -22,6 +22,6 @@
 #
 class Asset < ActiveRecord::Base
   include Uploader::Asset
-  
-  belongs_to :assetable, :polymorphic => true
+
+  belongs_to :assetable, polymorphic: true
 end
