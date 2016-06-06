@@ -1,52 +1,26 @@
-<%= content_tag(:div, :id => field.id, :class => "uploader-dnd-area") do -%>
-  <%= hidden_field(field.object_name, :fileupload_guid, :object => field.object) if field.object.new_record? %>
-  
+<%= content_tag(:div, id: field.id, class: 'uploader-dnd-area', data: { tpml: field.klass.to_s, exists: field.exists? }) do -%>
+  <%= hidden_field(field.object_name, :fileupload_guid, object: field.object) if field.object.new_record? %>
+
   <div class="uploader-files"></div>
-  
-	<div class="uploader-dnd-hints">  
-	  <span class="uploader-button gray fileinput-button">
+
+  <div class="uploader-dnd-hints">
+    <span class="uploader-button gray fileinput-button">
       <span><%= I18n.t('uploader.button') %></span>
-      <%= fields_for field.object do |f| -%>
-	      <%= f.fields_for field.method_name, field.klass.new do |m| -%>
-          <%= m.file_field(:data, field.input_html) %>
-	      <% end -%>
-	    <% end -%>
+      <%= file_field field.method_name, :data, field.input_html %>
     </span>
-    
-	  <div class="uploader-dnd-hint">
-		  <%= I18n.t('uploader.or') %><span><%= I18n.t('uploader.drop') %></span>
-	  </div>
-	</div>
-	
-	<%= render :partial => "uploader/#{field.theme}/upload", :locals => {:field => field} %>
-  <%= render :partial => "uploader/#{field.theme}/download", :locals => {:field => field} %>
-  <%= render :partial => "uploader/#{field.theme}/sortable", :locals => {:field => field} if field.sortable? %>
-  
-	<script type="text/javascript">
+
+    <div class="uploader-dnd-hint">
+      <%= I18n.t('uploader.or') %><span><%= I18n.t('uploader.drop') %></span>
+    </div>
+  </div>
+
+  <%= render partial: "uploader/#{field.theme}/upload", locals: { field: field } %>
+  <%= render partial: "uploader/#{field.theme}/download", locals: { field: field } %>
+  <%= render partial: "uploader/#{field.theme}/sortable", locals: { field: field } if field.sortable? %>
+
+  <script type="text/javascript">
     $(function() {
-      var uploader, container;
-      container = $("#<%= field.id %> div.uploader-files");
-      
-      $('#<%= field.id %> input[type="file"]').each(function(){
-        $(this).fileupload({
-          dataType: 'json',
-          dropZone: $("#<%= field.id %>"),
-          autoUpload: true,
-          paramName: "asset[data]",
-          formData: function(form){ return []; },
-          filesContainer: container,
-          namespace: 'uploader',
-          uploadTemplateId: 'template-upload-<%= field.klass %>',
-          downloadTemplateId: 'template-download-<%= field.klass %>'
-        });
-        
-        <% if field.exists? -%>
-          uploader = ($(this).data('blueimp-fileupload') || $(this).data('fileupload'));
-          uploader
-            ._renderDownload(<%=raw field.values.to_json(:root => false) %>)
-            .appendTo(container);
-        <% end -%>
-      });
+      $("#<%= field.id %>").uploaderWidget();
     });
   </script>
 <% end -%>

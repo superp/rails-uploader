@@ -1,16 +1,22 @@
 # encoding: utf-8
 require 'securerandom'
+require 'uploader/version'
 
+# Main uploader module
 module Uploader
   autoload :Fileuploads, 'uploader/fileuploads'
   autoload :Asset, 'uploader/asset'
-  autoload :AssetInstance, 'uploader/asset_instance'
 
+  # Just Rails helpers
   module Helpers
     autoload :FormTagHelper, 'uploader/helpers/form_tag_helper'
     autoload :FormBuilder, 'uploader/helpers/form_builder'
     autoload :FieldTag, 'uploader/helpers/field_tag'
   end
+
+  # Column name to store unique fileupload guid
+  mattr_accessor :guid_column
+  @@guid_column = :guid
 
   def self.guid
     SecureRandom.base64(16).tr('+/=', 'xyz').slice(0, 20)
@@ -31,18 +37,6 @@ module Uploader
   def self.constantize(klass)
     return if klass.blank?
     klass.safe_constantize
-  end
-
-  def self.content_type(user_agent)
-    return 'application/json' if user_agent.blank?
-
-    ie_version = user_agent.scan(/(MSIE\s|rv:)([\d\.]+)/).flatten.last
-
-    if user_agent.include?('Android') || (ie_version && ie_version.to_f <= 9.0) || (user_agent =~ /Trident\/[0-9\.]+\;/i)
-      'text/plain'
-    else
-      'application/json'
-    end
   end
 end
 

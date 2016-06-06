@@ -1,25 +1,21 @@
+require 'active_support/concern'
+
 module Uploader
   module Fileuploads
-    def self.included(base)
-      base.send :extend, SingletonMethods
+    extend ActiveSupport::Concern
+
+    included do
+      class_attribute :fileupload_options, instance_writer: false
+
+      after_create :fileupload_update, if: :fileupload_changed?
     end
 
-    module Mongoid
-      def self.included(base)
-        base.send :include, Uploader::Fileuploads
-      end
-
-      def self.include_root_in_json
-        false
-      end
-    end
-
-    module SingletonMethods
+    module ClassMethods
       # Join ActiveRecord object with uploaded file
       # Usage:
       #
       #   class Article < ActiveRecord::Base
-      #     has_one :picture, :as => :assetable, :dependent => :destroy
+      #     has_one :picture, as: :assetable, dependent: :destroy
       #
       #     fileuploads :picture
       #   end
@@ -28,27 +24,16 @@ module Uploader
       def fileuploads(*args)
         options = args.extract_options!
 
-        unless respond_to?(:fileuploads_options)
-          class_attribute(:fileuploads_options, instance_writer: false)
-          self.fileuploads_options ||= {}
+        self.fileupload_options ||= {}
 
-          include InstanceMethods
-          extend ClassMethods
-
-          after_save :fileuploads_update, if: :fileupload_changed?
-        end
-
-        args.each do |name|
-          fileuploads_options[name] = options
-          accepts_nested_attributes_for(name, allow_destroy: true)
+        args.each do |column|
+          self.fileupload_options[column] = options
         end
       end
-    end
 
-    module ClassMethods
       # Update reflection klass by guid
       def fileupload_update(record_id, guid, method)
-        fileupload_scope(method, guid).update_all(assetable_id: record_id, guid: nil)
+        fileupload_scope(method, guid).update_all(assetable_id: record_id, Uploader.guid_column => nil)
       end
 
       # Find asset(s) by guid
@@ -58,7 +43,7 @@ module Uploader
       end
 
       def fileupload_scope(method, guid)
-        fileupload_klass(method).where(guid: guid, assetable_type: base_class.name.to_s)
+        fileupload_klass(method).where(assetable_type: base_class.name.to_s, Uploader.guid_column => guid)
       end
 
       # Find class by reflection
@@ -72,54 +57,46 @@ module Uploader
         # many? for Mongoid and :collection? for AR
         method_name = association.respond_to?(:many?) ? :many? : :collection?
 
-        !!(association && association.send(method_name))
-      end
-
-      unless respond_to?(:base_class)
-        def base_class
-          self
-        end
+        association && association.send(method_name)
       end
     end
 
-    module InstanceMethods
-      # Generate unique key
-      def fileupload_guid
-        @fileupload_guid ||= Uploader.guid
+    # Generate unique key per form
+    def fileupload_guid
+      @fileupload_guid ||= Uploader.guid
+    end
+
+    def fileupload_guid=(value)
+      @fileupload_changed = (@fileupload_guid != value)
+      @fileupload_guid = value.blank? ? nil : value
+    end
+
+    def fileupload_changed?
+      @fileupload_changed == true
+    end
+
+    def fileupload_multiple?(method)
+      self.class.fileupload_multiple?(method)
+    end
+
+    # Find or build new asset object
+    def fileupload_asset(method)
+      if fileupload_associations.include?(method.to_sym)
+        asset = new_record? ? self.class.fileupload_find(method, fileupload_guid) : send(method)
+        asset ||= send("build_#{method}") if respond_to?("build_#{method}")
+        asset
       end
+    end
 
-      def fileupload_guid=(value)
-        @fileupload_changed = true unless value.blank?
-        @fileupload_guid = value.blank? ? nil : value
-      end
+    def fileupload_associations
+      self.class.fileupload_options.keys
+    end
 
-      def fileupload_changed?
-        @fileupload_changed == true
-      end
+    protected
 
-      def fileupload_multiple?(method)
-        self.class.fileupload_multiple?(method)
-      end
-
-      # Find or build new asset object
-      def fileupload_asset(method)
-        if fileuploads_columns.include?(method.to_sym)
-          asset = new_record? ? self.class.fileupload_find(method, fileupload_guid) : send(method)
-          asset ||= send("build_#{method}") if respond_to?("build_#{method}")
-          asset
-        end
-      end
-
-      def fileuploads_columns
-        self.class.fileuploads_options.keys
-      end
-
-      protected
-
-      def fileuploads_update
-        fileuploads_options.each do |method, _options|
-          self.class.fileupload_update(id, fileupload_guid, method)
-        end
+    def fileupload_update
+      fileupload_options.each do |method, _options|
+        self.class.fileupload_update(id, fileupload_guid, method)
       end
     end
   end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails-uploader (0.2.7)
+    rails-uploader (0.3.0)
       jquery-ui-rails
 
 GEM

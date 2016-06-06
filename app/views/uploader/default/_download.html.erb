@@ -1,18 +1,17 @@
-<!-- The template to display files available for download -->
 <script id="template-download-<%= field.klass %>" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
   <div id="asset_{%=file.id%}" class="attach_item template-download">
     <div class="buttons-panel">
-      <a href="#" class="del_btn delete" data-type="DELETE" data-url="/uploader/attachments/{%=file.public_token%}?klass=<%= field.klass %>"></a>
+      <a href="#" class="del_btn delete" data-type="DELETE" data-url="/uploader/attachments/{%=file.id%}?klass=<%= field.klass %>"></a>
     </div>
     <div class="thumbnail preview">
-      <a href="{%=file.url%}" download="{%=file.filename%}">
-        <img src="{%=file.thumb_url%}" title="{%=file.filename%}" rel="gallery" />
+      <a href="{%=file.url%}" download="{%=file.name%}">
+        <img src="{%=file.thumb_url%}" title="{%=file.name%}" rel="gallery" />
       </a>
     </div>
     <div class="infoHolder">
       <div class="fileName">
-        <a href="{%=file.url%}" download="{%=file.filename%}">{%=file.filename%}</a>
+        <a href="{%=file.url%}" download="{%=file.name%}">{%=file.name%}</a>
       </div>
       <div class="fileWeight">{%=o.formatFileSize(file.size)%}</div>
     </div>

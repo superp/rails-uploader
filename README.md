@@ -11,7 +11,7 @@ Preview:
 In Gemfile:
 
 ```
-gem "rails-uploader"
+gem 'rails-uploader'
 ```
 
 In routes:
@@ -79,12 +79,9 @@ For example user has one picture:
 
 ``` ruby
 class User < ActiveRecord::Base
-  has_one :picture, :as => :assetable, :dependent => :destroy
+  has_one :picture, as: :assetable, dependent: :destroy
 
   fileuploads :picture
-
-  # If your don't use strong_parameters, uncomment next line
-  # attr_accessible :fileupload_guid
 end
 ```
 
@@ -111,27 +108,11 @@ class User
   include Mongoid::Document
   include Uploader::Fileuploads
 
-  has_one :picture, :as => :assetable
+  has_one :picture, as: :assetable
 
   fileuploads :picture
 end
 ```
-
-### Notice
-
-User method fileuploads only once pre model. So if you have many attached files, use this:
-
-``` ruby
-class User
-  include Uploader::Fileuploads
-
-  has_one :picture, :as => :assetable
-  has_one :avatar, :as => :assetable
-
-  fileuploads :picture, :avatar
-end
-```
-
 
 ### Include assets
 
@@ -156,7 +137,7 @@ Stylesheets:
 or FormBuilder:
 
 ```erb
-<%= form.uploader_field :photo, :sortable => true %>
+<%= form.uploader_field :photo, sortable: true %>
 ```
 
 ### Formtastic
@@ -180,6 +161,65 @@ This is only working in Formtastic and FormBuilder:
 <%= f.input :picture, :as => :uploader, :confirm_delete => true %>
 # the i18n lookup key would be en.formtastic.delete_confirmations.picture
 ```
+
+## JSON Response
+
+https://github.com/blueimp/jQuery-File-Upload/wiki/Setup#using-jquery-file-upload-ui-version-with-a-custom-server-side-upload-handler
+
+Extend your custom server-side upload handler to return a JSON response akin to the following output:
+
+``` json
+{"files": [
+  {
+    "name": "picture1.jpg",
+    "size": 902604,
+    "url": "http:\/\/example.org\/files\/picture1.jpg",
+    "thumbnailUrl": "http:\/\/example.org\/files\/thumbnail\/picture1.jpg",
+    "deleteUrl": "http:\/\/example.org\/files\/picture1.jpg",
+    "deleteType": "DELETE"
+  },
+  {
+    "name": "picture2.jpg",
+    "size": 841946,
+    "url": "http:\/\/example.org\/files\/picture2.jpg",
+    "thumbnailUrl": "http:\/\/example.org\/files\/thumbnail\/picture2.jpg",
+    "deleteUrl": "http:\/\/example.org\/files\/picture2.jpg",
+    "deleteType": "DELETE"
+  }
+]}
+```
+
+To return errors to the UI, just add an error property to the individual file objects:
+
+``` json
+{"files": [
+  {
+    "name": "picture1.jpg",
+    "size": 902604,
+    "error": "Filetype not allowed"
+  },
+  {
+    "name": "picture2.jpg",
+    "size": 841946,
+    "error": "Filetype not allowed"
+  }
+]}
+```
+
+When removing files using the delete button, the response should be like this:
+
+``` json
+{"files": [
+  {
+    "picture1.jpg": true
+  },
+  {
+    "picture2.jpg": true
+  }
+]}
+```
+
+Note that the response should always be a JSON object containing a files array even if only one file is uploaded.
 
 ## Contributing
 

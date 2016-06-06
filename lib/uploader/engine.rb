@@ -2,6 +2,12 @@ require 'rails'
 require 'uploader'
 
 module Uploader
+  # Usage (config/routes.rb):
+  #
+  #   Rails.application.routes.draw do
+  #     mount Uploader::Engine => '/uploader'
+  #   end
+  #
   class Engine < ::Rails::Engine
     isolate_namespace Uploader
 
