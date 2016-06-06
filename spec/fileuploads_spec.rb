@@ -8,11 +8,11 @@ describe Uploader::Fileuploads do
   it "should be a Module" do
     Uploader::Fileuploads.should be_a(Module)
   end
-  
+
   it "should return asset class" do
     Article.fileupload_klass("picture").should == Picture
   end
-  
+
   it "should find asset by guid" do
     asset = Article.fileupload_find("picture", @picture.guid)
     asset.should == @picture
@@ -51,7 +51,7 @@ describe Uploader::Fileuploads do
     end
 
     it "should return fileuploads columns" do
-      @article.fileuploads_columns.should include(:picture)
+      @article.fileupload_associations.should include(:picture)
     end
   end
 end

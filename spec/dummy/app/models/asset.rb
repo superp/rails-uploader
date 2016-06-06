@@ -24,4 +24,16 @@ class Asset < ActiveRecord::Base
   include Uploader::Asset
 
   belongs_to :assetable, polymorphic: true
+
+  def filename
+    data_file_name
+  end
+
+  def content_type
+    data_content_type
+  end
+
+  def size
+    data_file_size
+  end
 end
