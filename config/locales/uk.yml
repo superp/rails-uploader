@@ -3,3 +3,6 @@ uk:
     button: "Виберіть файл на комп'ютері"
     drop: "Перетягніть файл сюди"
     or: "або"
+    confirm_delete: "Are you sure?"
+    access_denied:
+      message: 'Access denied'

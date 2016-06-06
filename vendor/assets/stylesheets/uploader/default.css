@@ -1,4 +1,4 @@
-.uploader-dnd-area { 
+.uploader-dnd-area {
   border: 1px dashed #ccc;
 	padding: 15px 0px 15px 20px;
 	color: #b1b1b1;
@@ -13,7 +13,7 @@
 .uploader-dnd-hints {
   text-align: center;
   padding: 30px 0;
-  overflow: hidden;	
+  overflow: hidden;
   clear: both;
 }
 .uploader-dnd-hints .uploader-button {
@@ -37,11 +37,11 @@
 .uploader-button {
 	display: inline-block;
 	background: #972da0;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#982da1', endColorstr='#892891'); 
-	background: -webkit-linear-gradient(left top, left bottom, #982da1, #892891); 
-	background: -moz-linear-gradient(top,  #982da1,  #892891); 
-	background: -o-linear-gradient(top,  #982da1,  #892891); 
-	background: -ms-linear-gradient(top,  #982da1,  #892891); 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#982da1', endColorstr='#892891');
+	background: -webkit-linear-gradient(left top, left bottom, #982da1, #892891);
+	background: -moz-linear-gradient(top,  #982da1,  #892891);
+	background: -o-linear-gradient(top,  #982da1,  #892891);
+	background: -ms-linear-gradient(top,  #982da1,  #892891);
 	border: solid 1px #5f1c65;
 	border-radius: 2px;
   -moz-border-radius: 2px;
@@ -57,22 +57,22 @@
 }
 .uploader-button:hover {
 	background: #972da0;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90179a', endColorstr='#7d2485'); 
-  background: -webkit-linear-gradient(left top, left bottom, #90179a, #7d2485); 
-  background: -moz-linear-gradient(top,  #90179a,  #7d2485); 
-  background: -o-linear-gradient(top,  #90179a,  #7d2485); 
-  background: -ms-linear-gradient(top,  #90179a,  #7d2485); 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#90179a', endColorstr='#7d2485');
+  background: -webkit-linear-gradient(left top, left bottom, #90179a, #7d2485);
+  background: -moz-linear-gradient(top,  #90179a,  #7d2485);
+  background: -o-linear-gradient(top,  #90179a,  #7d2485);
+  background: -ms-linear-gradient(top,  #90179a,  #7d2485);
 	-moz-box-shadow: 0 1px 3px #aaa;
   -webkit-box-shadow: 0 1px 3px #aaa;
   box-shadow: 0 1px 3px #aaa;
 }
 .uploader-button:active {
   background: #8e1898;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8e1898', endColorstr='#7f2387'); 
-  background: -webkit-linear-gradient(left top, left bottom, #8e1898, #7f2387); 
-  background: -moz-linear-gradient(top,  #8e1898,  #7f2387); 
-  background: -o-linear-gradient(top,  #8e1898,  #7f2387); 
-  background: -ms-linear-gradient(top,  #8e1898,  #7f2387); 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8e1898', endColorstr='#7f2387');
+  background: -webkit-linear-gradient(left top, left bottom, #8e1898, #7f2387);
+  background: -moz-linear-gradient(top,  #8e1898,  #7f2387);
+  background: -o-linear-gradient(top,  #8e1898,  #7f2387);
+  background: -ms-linear-gradient(top,  #8e1898,  #7f2387);
 	-moz-box-shadow: inset 0 0 4px #5f1c65;
   -webkit-box-shadow: inset 0 0 4px #5f1c65;
   box-shadow: inset 0 0 4px #5f1c65;
@@ -144,7 +144,7 @@ input[disabled].uploader-button.gray {
   -webkit-box-shadow: 0 0 5px #d2d2d2;
   box-shadow: 0 0 5px #d2d2d2;
   border: solid 1px #cf63d8;
-}	
+}
 
 .uploader-dnd-area .attach_item a.del_btn {
   width: 19px;
@@ -174,7 +174,7 @@ input[disabled].uploader-button.gray {
   float: right;
   width: 180px;
   overflow: hidden;
-}		
+}
 .uploader-dnd-area .attach_item .fileName {
   color: #000;
   font-size: 14px;
@@ -203,4 +203,7 @@ input[disabled].uploader-button.gray {
 
 .uploader-dnd-area .attach_item.loading .progressBar {
   display: block;
+}
+.uploader-dnd-area .attach_item .thumbnail.preview img {
+  width: 50px;
 }

@@ -4,3 +4,5 @@ en:
     drop: "Drag&Drop files here"
     or: "or"
     confirm_delete: "Are you sure?"
+    access_denied:
+      message: 'Access denied'

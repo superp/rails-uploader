@@ -6,6 +6,8 @@ require 'uploader/version'
 module Uploader
   autoload :Fileuploads, 'uploader/fileuploads'
   autoload :Asset, 'uploader/asset'
+  autoload :Authorization, 'uploader/authorization'
+  autoload :AuthorizationAdapter, 'uploader/authorization_adapter'
 
   # Just Rails helpers
   module Helpers
@@ -17,6 +19,24 @@ module Uploader
   # Column name to store unique fileupload guid
   mattr_accessor :guid_column
   @@guid_column = :guid
+
+  # The authorization adapter to use
+  mattr_accessor :authorization_adapter
+  @@authorization_adapter = Uploader::AuthorizationAdapter
+
+  mattr_accessor :current_user_proc
+  @@current_user_proc = nil
+
+  # Default way to setup Uploader
+  #
+  #   Uploader.setup do |config|
+  #     config.authorization_adapter = CanCanUploaderAdapter
+  #     config.current_user_proc = -> (request) { request.env['warden'].user(:admin_user) }
+  #   end
+  #
+  def self.setup
+    yield self
+  end
 
   def self.guid
     SecureRandom.base64(16).tr('+/=', 'xyz').slice(0, 20)
@@ -37,6 +57,22 @@ module Uploader
   def self.constantize(klass)
     return if klass.blank?
     klass.safe_constantize
+  end
+
+  # Exception class to raise when there is an authorized access
+  # exception thrown. The exception has a few goodies that may
+  # be useful for capturing / recognizing security issues.
+  class AccessDenied < StandardError
+    attr_reader :user, :action, :subject
+
+    def initialize(user, action, subject)
+      @user, @action, @subject = user, action, subject
+      super
+    end
+
+    def message
+      I18n.t('uploader.access_denied.message')
+    end
   end
 end
 

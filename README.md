@@ -2,10 +2,6 @@
 
 This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
 
-Preview:
-
-![Uploader in use](http://img39.imageshack.us/img39/2206/railsuploader.png)
-
 ## Install
 
 In Gemfile:
@@ -33,44 +29,14 @@ Architecture to store uploaded files (cancan integration):
 ``` ruby
 class Asset < ActiveRecord::Base
   include Uploader::Asset
-
-  def uploader_create(params, request = nil)
-    ability = Ability.new(request.env['warden'].user)
-
-    if ability.can? :create, self
-      self.user = request.env['warden'].user
-      super
-    else
-      errors.add(:id, :access_denied)
-    end
-  end
-
-  def uploader_destroy(params, request = nil)
-    ability = Ability.new(request.env['warden'].user)
-
-    if ability.can? :delete, self
-      super
-    else
-      errors.add(:id, :access_denied)
-    end
-  end
 end
 
 class Picture < Asset
-  mount_uploader :data, PictureUploader
+  mount_uploader :data, PictureUploader, mount_on: :data_file_name
+  validates :data, file_size: { maximum: 5.megabytes.to_i }
 
-  validates_integrity_of :data
-  validates_filesize_of :data, :maximum => 2.megabytes.to_i
-
-  # structure of returned json array of files. (used in Hash.to_json operation)
-  def serializable_hash(options=nil)
-    {
-        "id" => id.to_s,
-        "filename" => File.basename(data.path),
-        "url" => data.url,
-        "thumb_url" => data.url(:thumb),
-        "public_token" => public_token
-    }
+  def thumb_url
+    url(:thumb)
   end
 end
 ```
@@ -89,29 +55,6 @@ Find asset by foreign key or guid:
 
 ``` ruby
 @user.fileupload_asset(:picture)
-```
-
-### Mongoid
-
-No parent asset model is required, one only has to `include Uploader::Asset::Mongoid` into the
-model that should act like an asset:
-
-``` ruby
-class Picture
-  include Mongoid::Document
-  include Uploader::Asset::Mongoid
-
-  belongs_to :user
-end
-
-class User
-  include Mongoid::Document
-  include Uploader::Fileuploads
-
-  has_one :picture, as: :assetable
-
-  fileuploads :picture
-end
 ```
 
 ### Include assets
@@ -161,6 +104,35 @@ This is only working in Formtastic and FormBuilder:
 <%= f.input :picture, :as => :uploader, :confirm_delete => true %>
 # the i18n lookup key would be en.formtastic.delete_confirmations.picture
 ```
+
+## Authorization
+
+Setup custom authorization adapter and current user:
+
+``` ruby
+# config/initializers/uploader.rb
+Uploader.setup do |config|
+  config.authorization_adapter = CanCanUploaderAdapter
+  config.current_user_proc = -> (request) { request.env['warden'].user }
+end
+```
+
+``` ruby
+class CanCanUploaderAdapter < Uploader::AuthorizationAdapter
+  def authorized?(action, subject = nil)
+    cancan_ability.can?(action, subject)
+  end
+
+  def scope_collection(collection, action = :index)
+    collection.accessible_by(cancan_ability, action)
+  end
+
+  protected
+
+  def cancan_ability
+    @cancan_ability ||= Ability.new(user)
+  end
+end
 
 ## JSON Response
 
