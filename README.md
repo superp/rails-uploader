@@ -86,13 +86,13 @@ or FormBuilder:
 ### Formtastic
 
 ```erb
-<%= f.input :pictures, :as => :uploader %>
+<%= f.input :pictures, as: :uploader %>
 ```
 
 ### SimpleForm
 
 ```erb
-<%= f.input :pictures, :as => :uploader, :input_html => {:sortable => true} %>
+<%= f.input :pictures, as: :uploader, input_html: { sortable: true } %>
 ```
 
 #### Confirming deletions
@@ -117,6 +117,8 @@ Uploader.setup do |config|
 end
 ```
 
+CanCanUploaderAdapter class just create cancan ability object and call can? method with same args:
+
 ``` ruby
 class CanCanUploaderAdapter < Uploader::AuthorizationAdapter
   def authorized?(action, subject = nil)
@@ -133,6 +135,7 @@ class CanCanUploaderAdapter < Uploader::AuthorizationAdapter
     @cancan_ability ||= Ability.new(user)
   end
 end
+```
 
 ## JSON Response
 
@@ -146,17 +149,17 @@ Extend your custom server-side upload handler to return a JSON response akin to 
     "name": "picture1.jpg",
     "size": 902604,
     "url": "http:\/\/example.org\/files\/picture1.jpg",
-    "thumbnailUrl": "http:\/\/example.org\/files\/thumbnail\/picture1.jpg",
-    "deleteUrl": "http:\/\/example.org\/files\/picture1.jpg",
-    "deleteType": "DELETE"
+    "thumb_url": "http:\/\/example.org\/files\/thumbnail\/picture1.jpg",
+    "id": 1,
+    "content_type": "image/jpg"
   },
   {
     "name": "picture2.jpg",
     "size": 841946,
     "url": "http:\/\/example.org\/files\/picture2.jpg",
-    "thumbnailUrl": "http:\/\/example.org\/files\/thumbnail\/picture2.jpg",
-    "deleteUrl": "http:\/\/example.org\/files\/picture2.jpg",
-    "deleteType": "DELETE"
+    "thumb_url": "http:\/\/example.org\/files\/thumbnail\/picture2.jpg",
+    "id": 2,
+    "content_type": "image/jpg"
   }
 ]}
 ```
@@ -192,6 +195,37 @@ When removing files using the delete button, the response should be like this:
 ```
 
 Note that the response should always be a JSON object containing a files array even if only one file is uploaded.
+
+### Customize JSON response and views
+
+To customize JSON response just overwrite to_fileupload method:
+
+``` ruby
+class Asset
+  include Uploader::Asset
+
+  def to_fileupload
+    {
+      id: id,
+      name: filename,
+      content_type: content_type,
+      size: size,
+      url:  url,
+      thumb_url: thumb_url
+    }
+  end
+end
+```
+
+To customize views just create new theme. For example create avatar theme:
+
+    app/views/uploader/avatar/_container.html.erb
+    app/views/uploader/avatar/_download.html.erb
+    app/views/uploader/avatar/_upload.html.erb
+
+``` slim
+= form.uploader_field :photo, theme: 'avatar'
+```
 
 ## Contributing
 
