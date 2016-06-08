@@ -37,6 +37,7 @@ module Uploader
     end
 
     def cleanup
+      file.close
       FileUtils.rm(file.path, force: true)
     end
 
