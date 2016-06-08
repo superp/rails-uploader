@@ -217,6 +217,22 @@ class Asset
 end
 ```
 
+For exsample let's overwrite id method to public_token method:
+
+``` ruby
+class Asset
+  include Uploader::Asset
+
+  def to_fileupload
+    super.merge(id: public_token)
+  end
+
+  def self.fileupload_find_asset(params)
+    where(public_token: params[:id]).first
+  end
+end
+```
+
 To customize views just create new theme. For example create avatar theme:
 
     app/views/uploader/avatar/_container.html.erb
