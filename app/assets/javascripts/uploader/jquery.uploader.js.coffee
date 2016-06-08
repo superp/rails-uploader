@@ -3,9 +3,9 @@ $ = jQuery
 $.fn.uploaderWidget = (options = {}) ->
   @each ->
     $this = $(this)
-    data = $this.data("uploaderWidget")
+    data = $this.data('uploaderWidget')
     if (!data)
-      $this.data("uploaderWidget", new UploaderWidget(this, options))
+      $this.data('uploaderWidget', new UploaderWidget(this, options))
     if (typeof options is 'string')
       data[options]()
 
@@ -14,7 +14,7 @@ class UploaderWidget
     defaults =
       dataType: 'json'
       autoUpload: true
-      paramName: "asset[data]"
+      paramName: 'asset[data]'
       formData: (form) -> return []
       namespace: 'uploader'
       uploadTemplateId: 'template-upload-'

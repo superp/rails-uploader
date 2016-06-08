@@ -1,6 +1,8 @@
 module Uploader
   module Helpers
     class FieldTag
+      RESERVED_OPTIONS_KEYS = %(method_name object_name theme value object sortable).freeze
+
       attr_reader :template, :object, :theme
 
       delegate :uploader, to: :template
@@ -76,11 +78,14 @@ module Uploader
       end
 
       def input_html
-        @input_html ||= {
-          data: { url: attachments_path },
-          multiple: multiple?,
-          class: 'uploader'
-        }.merge(@options[:input_html] || {})
+        @input_html ||= { multiple: multiple?, class: 'uploader' }.merge(input_html_options)
+        @input_html[:data] ||= {}
+        @input_html[:data][:url] ||= attachments_path
+        @input_html
+      end
+
+      def input_html_options
+        @options.select { |key, _value| !RESERVED_OPTIONS_KEYS.include?(key.to_s) }
       end
     end
   end

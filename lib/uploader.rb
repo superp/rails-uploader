@@ -8,6 +8,9 @@ module Uploader
   autoload :Asset, 'uploader/asset'
   autoload :Authorization, 'uploader/authorization'
   autoload :AuthorizationAdapter, 'uploader/authorization_adapter'
+  autoload :ChunkedUploads, 'uploader/chunked_uploads'
+  autoload :UploadRequest, 'uploader/upload_request'
+  autoload :FilePart, 'uploader/file_part'
 
   # Just Rails helpers
   module Helpers

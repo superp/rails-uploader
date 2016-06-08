@@ -223,9 +223,23 @@ To customize views just create new theme. For example create avatar theme:
     app/views/uploader/avatar/_download.html.erb
     app/views/uploader/avatar/_upload.html.erb
 
+And pass theme to input field:
+
 ``` slim
 = form.uploader_field :photo, theme: 'avatar'
 ```
+
+## Chunked file uploads
+
+Chunked file uploads are only supported by browsers with support for XHR file uploads and the Blob API, which includes Google Chrome and Mozilla Firefox 4+.
+
+To upload large files in smaller chunks, set the max_chunk_size option to a preferred maximum chunk size in Bytes:
+
+``` slim
+= f.uploader_field :video, class: 'button', theme: 'media', data: { max_chunk_size: 10_000_000 }
+```
+
+That's it!
 
 ## Contributing
 
@@ -235,4 +249,4 @@ To customize views just create new theme. For example create avatar theme:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-Copyright (c) 2013 Fodojo, released under the MIT license
+Copyright (c) 2016 Fodojo LLC, released under the MIT license

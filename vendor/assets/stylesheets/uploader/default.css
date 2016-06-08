@@ -207,3 +207,7 @@ input[disabled].uploader-button.gray {
 .uploader-dnd-area .attach_item .thumbnail.preview img {
   width: 50px;
 }
+.uploader-dnd-area .uploader-dnd-hints .uploader-button span {
+  margin-top: 6px;
+  display: inline-block;
+}

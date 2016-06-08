@@ -34,7 +34,7 @@ module Uploader
     #     end
     #   end
     #
-    def fileupload_create(params, request = nil)
+    def fileupload_create(params, _request = nil)
       self[Uploader.guid_column] = params[:guid]
       fileupload_set_assetable(params)
       save
@@ -56,7 +56,7 @@ module Uploader
     #     end
     #   end
     #
-    def fileupload_destroy(params, request = nil)
+    def fileupload_destroy(_params, _request = nil)
       destroy
     end
 

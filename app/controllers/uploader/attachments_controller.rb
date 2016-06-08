@@ -2,6 +2,7 @@ module Uploader
   class AttachmentsController < ActionController::Metal
     include AbstractController::Callbacks
     include Uploader::Authorization
+    include Uploader::ChunkedUploads
 
     before_action :find_klass
     before_action :build_asset, only: [:create]
@@ -19,7 +20,11 @@ module Uploader
     def create
       authorize!(:create, @asset)
 
-      @asset.fileupload_create(params, request)
+      with_chunked_upload(asset_params[:data]) do |file|
+        @asset.data = file
+        @asset.fileupload_create(params, request)
+      end
+
       render_resourse(@asset, 201)
     end
 
