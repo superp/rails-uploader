@@ -28,7 +28,7 @@
 }
 .uploader-dnd-hints .uploader-dnd-hint span {
   padding: 10px 30px;
-  background: url(/assets/uploader/ico_attach.png) no-repeat 9px center;
+  background: url(image_path("uploader/ico_attach.png")) no-repeat 9px center;
 }
 .uploader-dnd-hints input.uploader {
   height: 31px;
@@ -153,7 +153,7 @@ input[disabled].uploader-button.gray {
   position: absolute;
   top: -10px;
   right: -10px;
-  background: url(/assets/uploader/but_del_tag2.png) no-repeat top left;
+  background: url(image_path("uploader/but_del_tag2.png")) no-repeat top left;
 }
 .uploader-dnd-area .attach_item .del_btn:hover {
   background-position: bottom left;
@@ -198,7 +198,7 @@ input[disabled].uploader-button.gray {
 }
 .uploader-dnd-area .attach_item .progressBar .fill {
   height: 8px;
-  background: url(/assets/uploader/progressBarFillBg.png) repeat-x;
+  background: url(image_path("uploader/progressBarFillBg.png")) repeat-x;
 }
 
 .uploader-dnd-area .attach_item.loading .progressBar {
