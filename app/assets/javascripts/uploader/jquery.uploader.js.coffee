@@ -26,7 +26,7 @@ class UploaderWidget
 
   _setup: ->
     @element = $(@dom_id)
-    @container = @element.find('div.uploader-files')
+    @container = @element.find('.uploader-files')
     @template = @element.data('tpml')
     @input = @element.find('input[type="file"]:eq(0)')
 
