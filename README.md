@@ -252,7 +252,7 @@ Chunked file uploads are only supported by browsers with support for XHR file up
 To upload large files in smaller chunks, set the max_chunk_size option to a preferred maximum chunk size in Bytes:
 
 ``` slim
-= f.uploader_field :video, class: 'button', theme: 'media', data: { max_chunk_size: 10_000_000 }
+= f.uploader_field :video, data: { max_chunk_size: 10_000_000 }
 ```
 
 That's it!
