@@ -89,6 +89,7 @@ module Uploader
     end
 
     def fileupload_associations
+      return [] if self.class.fileupload_options.nil?
       self.class.fileupload_options.keys
     end
 
