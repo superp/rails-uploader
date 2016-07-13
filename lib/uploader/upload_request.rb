@@ -1,6 +1,7 @@
 require 'rack/request'
 require 'fileutils'
 require 'digest/sha1'
+require 'uri'
 
 module Uploader
   class UploadRequest < Rack::Request
@@ -33,7 +34,7 @@ module Uploader
     end
 
     def filename
-      @filename ||= @env['HTTP_CONTENT_DISPOSITION'].match(/filename="(.+)"/)[1]
+      @filename ||= extract_filename(@env['HTTP_CONTENT_DISPOSITION'])
     end
 
     def cleanup
@@ -68,6 +69,11 @@ module Uploader
 
     def csrf_token
       @env['HTTP_X_CSRF_TOKEN']
+    end
+
+    def extract_filename(value)
+      value = value.match(/filename\s?=\s?\"?([^;"]+)\"?/i)[1]
+      URI.decode(value.force_encoding('binary'))
     end
   end
 end
