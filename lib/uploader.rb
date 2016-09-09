@@ -42,7 +42,7 @@ module Uploader
   end
 
   def self.guid
-    SecureRandom.base64(16).tr('+/=', 'xyz').slice(0, 20)
+    SecureRandom.urlsafe_base64
   end
 
   def self.root_path
@@ -68,9 +68,12 @@ module Uploader
   class AccessDenied < StandardError
     attr_reader :user, :action, :subject
 
-    def initialize(user, action, subject)
-      @user, @action, @subject = user, action, subject
-      super
+    def initialize(user, action, subject = nil)
+      @user = user
+      @action = action
+      @subject = subject
+
+      super(message)
     end
 
     def message
