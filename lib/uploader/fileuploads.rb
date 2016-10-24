@@ -43,7 +43,8 @@ module Uploader
       end
 
       def fileupload_scope(method, guid)
-        fileupload_klass(method).where(assetable_type: base_class.name.to_s, Uploader.guid_column => guid)
+        type = respond_to?(:base_class) ? base_class.name : name
+        fileupload_klass(method).where(assetable_type: type.to_s, Uploader.guid_column => guid)
       end
 
       # Find class by reflection
@@ -81,11 +82,10 @@ module Uploader
 
     # Find or build new asset object
     def fileupload_asset(method)
-      if fileupload_associations.include?(method.to_sym)
-        asset = new_record? ? self.class.fileupload_find(method, fileupload_guid) : send(method)
-        asset ||= send("build_#{method}") if respond_to?("build_#{method}")
-        asset
-      end
+      return unless fileupload_associations.include?(method.to_sym)
+      asset = new_record? ? self.class.fileupload_find(method, fileupload_guid) : send(method)
+      asset ||= send("build_#{method}") if respond_to?("build_#{method}")
+      asset
     end
 
     def fileupload_associations

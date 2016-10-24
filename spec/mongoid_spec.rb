@@ -14,12 +14,14 @@ end
 
 class MongoidPicture
   include Mongoid::Document
-  include Uploader::Asset::Mongoid
+  include Uploader::Asset
+
+  field :guid, type: String
 
   belongs_to :assetable, polymorphic: true
 end
 
-describe Uploader::Asset::Mongoid do
+describe Uploader::Asset do
   before do
     @guid = 'guid'
     @picture = MongoidPicture.create!(:guid => @guid, :assetable_type => 'MongoidArticle')
