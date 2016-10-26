@@ -7,7 +7,7 @@ class MongoidArticle
   include Mongoid::Document
   include Uploader::Fileuploads
 
-  has_one :mongoid_picture, :as => :assetable
+  has_one :mongoid_picture, as: :assetable
 
   fileuploads :mongoid_picture
 end
@@ -24,18 +24,20 @@ end
 describe Uploader::Asset do
   before do
     @guid = 'guid'
-    @picture = MongoidPicture.create!(:guid => @guid, :assetable_type => 'MongoidArticle')
+    @article = MongoidArticle.new(fileupload_guid: @guid)
+    @picture = MongoidPicture.create!(guid: @guid, assetable_type: 'MongoidArticle')
   end
 
   it 'should find asset by guid' do
-    asset = MongoidArticle.fileupload_find("mongoid_picture", @picture.guid)
+    asset = @article.fileupload_asset(:mongoid_picture)
     asset.should == @picture
   end
 
   it "should update asset target_id by guid" do
-    MongoidArticle.fileupload_update(1000, @picture.guid, :mongoid_picture)
+    @article.save
+
     @picture.reload
-    @picture.assetable_id.should == 1000
+    @picture.assetable_id.should == @article.id
     @picture.guid.should be_nil
   end
 

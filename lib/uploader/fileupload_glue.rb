@@ -35,7 +35,6 @@ module Uploader
 
     def asset(method_name)
       return unless available_fileuploads.include?(method_name.to_sym)
-
       find_asset_by_fileupload_guid(method_name, fileupload_guid) || build_asset(method_name)
     end
 
@@ -69,7 +68,10 @@ module Uploader
     end
 
     def build_asset(method_name)
-      send("build_#{method_name}") if respond_to?("build_#{method_name}")
+      build_method = "build_#{method_name}"
+      return unless @record.respond_to?(build_method)
+
+      @record.send(build_method)
     end
 
     def find_asset_by_fileupload_guid(method_name, guid)

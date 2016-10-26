@@ -265,4 +265,8 @@ That's it!
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+## Testing
+
+    rspec ./spec/
+
 Copyright (c) 2016 Fodojo LLC, released under the MIT license

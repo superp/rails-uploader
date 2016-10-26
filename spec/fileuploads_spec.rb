@@ -2,32 +2,27 @@ require 'spec_helper'
 
 describe Uploader::Fileuploads do
   before(:all) do
-    @picture = FactoryGirl.create(:picture)
+    @picture = FactoryGirl.create(:picture, assetable_type: 'Article')
   end
 
   it "should be a Module" do
     Uploader::Fileuploads.should be_a(Module)
   end
 
-  it "should return asset class" do
-    Article.fileupload_klass("picture").should == Picture
-  end
-
-  it "should find asset by guid" do
-    asset = Article.fileupload_find("picture", @picture.guid)
-    asset.should == @picture
-  end
-
-  it "should update asset target_id by guid" do
-    Article.fileupload_update(1000, @picture.guid, :picture)
-    @picture.reload
-    @picture.assetable_id.should == 1000
-    @picture.guid.should be_nil
-  end
-
   context "instance methods" do
     before(:each) do
       @article = FactoryGirl.build(:article)
+    end
+
+    it "should return asset class" do
+      @article.fileupload_klass("picture").should == Picture
+    end
+
+    it "should find asset by guid" do
+      @picture.update_column(:guid, @article.fileupload_guid)
+
+      asset = @article.fileupload_asset('picture')
+      asset.should == @picture
     end
 
     it "should generate guid" do
@@ -50,8 +45,8 @@ describe Uploader::Fileuploads do
       picture.should be_new_record
     end
 
-    it "should return fileuploads columns" do
-      @article.fileupload_associations.should include(:picture)
+    it 'must get fileupload params' do
+      @article.fileupload_params(:picture).should_not be nil
     end
   end
 end
