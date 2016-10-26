@@ -5,7 +5,6 @@ module Uploader
     delegate :reflect_on_association, to: :record_klass
     delegate :fileupload_guid, :new_record?, to: :record
 
-    DEFAULT_TARGET = 'assetable'.freeze
     TARGET_TYPE = '_type'.freeze
     TARGET_ID = '_id'.freeze
 
@@ -18,9 +17,11 @@ module Uploader
 
     def join!
       available_fileuploads.each do |method_name|
-        column_name = target_name(method_name).to_s + TARGET_ID
-        scope_by_fileupload_guid(method_name, fileupload_guid).update_all(column_name => @record.id,
-                                                                          Uploader.guid_column => nil)
+        target_name = target_column_name(method_name).to_s + TARGET_ID
+        guid_name = guid_column_name(method_name)
+
+        scope_by_fileupload_guid(method_name, fileupload_guid).update_all(target_name => @record.id,
+                                                                          guid_name => nil)
       end
     end
 
@@ -63,8 +64,12 @@ module Uploader
       @available_fileuploads ||= @record_klass.fileupload_options.keys
     end
 
-    def target_name(method_name)
-      @record_klass.fileupload_options[method_name.to_sym].fetch(:target, DEFAULT_TARGET)
+    def target_column_name(method_name)
+      @record_klass.fileupload_options[method_name.to_sym].fetch(:assetable, Uploader.assetable_column)
+    end
+
+    def guid_column_name(method_name)
+      @record_klass.fileupload_options[method_name.to_sym].fetch(:guid, Uploader.guid_column)
     end
 
     def build_asset(method_name)
@@ -84,8 +89,10 @@ module Uploader
     end
 
     def scope_by_fileupload_guid(method_name, guid)
-      column_name = target_name(method_name).to_s + TARGET_TYPE
-      klass(method_name).where(column_name => record_klass_type.to_s, Uploader.guid_column => guid)
+      target_name = target_column_name(method_name).to_s + TARGET_TYPE
+      guid_name = guid_column_name(method_name)
+
+      klass(method_name).where(target_name => record_klass_type.to_s, guid_name => guid)
     end
 
     def record_klass_type

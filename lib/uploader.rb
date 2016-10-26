@@ -24,6 +24,10 @@ module Uploader
   mattr_accessor :guid_column
   @@guid_column = :guid
 
+  # Column name to store target record
+  mattr_accessor :assetable_column
+  @@assetable_column = :assetable
+
   # The authorization adapter to use
   mattr_accessor :authorization_adapter
   @@authorization_adapter = Uploader::AuthorizationAdapter
