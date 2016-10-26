@@ -7,6 +7,8 @@ module Uploader
     included do
       class_attribute :fileupload_options, instance_writer: false
 
+      delegate :asset, :multiple?, :params, :klass, to: :fileupload_glue, prefix: :fileupload
+
       after_create :fileupload_update, if: :fileupload_changed?
     end
 
@@ -30,36 +32,6 @@ module Uploader
           self.fileupload_options[column] = options
         end
       end
-
-      # Update reflection klass by guid
-      def fileupload_update(record_id, guid, method)
-        fileupload_scope(method, guid).update_all(assetable_id: record_id, Uploader.guid_column => nil)
-      end
-
-      # Find asset(s) by guid
-      def fileupload_find(method, guid)
-        query = fileupload_scope(method, guid)
-        fileupload_multiple?(method) ? query : query.first
-      end
-
-      def fileupload_scope(method, guid)
-        type = respond_to?(:base_class) ? base_class.name : name
-        fileupload_klass(method).where(assetable_type: type.to_s, Uploader.guid_column => guid)
-      end
-
-      # Find class by reflection
-      def fileupload_klass(method)
-        reflect_on_association(method.to_sym).klass
-      end
-
-      def fileupload_multiple?(method)
-        association = reflect_on_association(method.to_sym)
-
-        # many? for Mongoid and :collection? for AR
-        method_name = association.respond_to?(:many?) ? :many? : :collection?
-
-        association && association.send(method_name)
-      end
     end
 
     # Generate unique key per form
@@ -76,29 +48,14 @@ module Uploader
       @fileupload_changed == true
     end
 
-    def fileupload_multiple?(method)
-      self.class.fileupload_multiple?(method)
-    end
-
-    # Find or build new asset object
-    def fileupload_asset(method)
-      return unless fileupload_associations.include?(method.to_sym)
-      asset = new_record? ? self.class.fileupload_find(method, fileupload_guid) : send(method)
-      asset ||= send("build_#{method}") if respond_to?("build_#{method}")
-      asset
-    end
-
-    def fileupload_associations
-      return [] if self.class.fileupload_options.nil?
-      self.class.fileupload_options.keys
-    end
-
     protected
 
+    def fileupload_glue
+      @fileupload_glue ||= Uploader::FileuploadGlue.new(self)
+    end
+
     def fileupload_update
-      fileupload_options.each do |method, _options|
-        self.class.fileupload_update(id, fileupload_guid, method)
-      end
+      fileupload_glue.join!
     end
   end
 end

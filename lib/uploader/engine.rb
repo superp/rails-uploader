@@ -1,5 +1,4 @@
 require 'rails'
-require 'uploader'
 
 module Uploader
   # Usage (config/routes.rb):

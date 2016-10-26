@@ -11,6 +11,7 @@ module Uploader
   autoload :ChunkedUploads, 'uploader/chunked_uploads'
   autoload :UploadRequest, 'uploader/upload_request'
   autoload :FilePart, 'uploader/file_part'
+  autoload :FileuploadGlue, 'uploader/fileupload_glue'
 
   # Just Rails helpers
   module Helpers

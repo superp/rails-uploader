@@ -62,18 +62,11 @@ module Uploader
       end
 
       def klass
-        @klass ||= @object.class.fileupload_klass(method_name)
+        @klass ||= @object.fileupload_klass(method_name)
       end
 
       def attachments_path(options = {})
-        options = {
-          guid: @object.fileupload_guid,
-          assetable_type: @object.class.base_class.name.to_s,
-          klass: klass.to_s
-        }.merge(options)
-
-        options[:assetable_id] = @object.id if @object.persisted?
-
+        options = @object.fileupload_params(method_name).merge(options)
         uploader.attachments_path(options)
       end
 
