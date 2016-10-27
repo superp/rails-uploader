@@ -61,6 +61,7 @@ module Uploader
     protected
 
     def available_fileuploads
+      return [] if @record_klass.fileupload_options.nil?
       @available_fileuploads ||= @record_klass.fileupload_options.keys
     end
 
