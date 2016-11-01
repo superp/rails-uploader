@@ -10,13 +10,20 @@ module Uploader
       end
 
       def fileupload_find_assets(params)
-        where(assetable_type: params[:assetable_type], assetable_id: params[:assetable_id])
+        where(fileupload_assetable_options(params))
+      end
+
+      def fileupload_assetable_options(params)
+        {
+          "#{Uploader.assetable_column}_type" => params[:assetable_type],
+          "#{Uploader.assetable_column}_id" => params[:assetable_id]
+        }
       end
 
       def fileupload_update_ordering(params)
-        assets = Array.wrap(params[:assets] || [])
+        return if params[:assets].blank?
 
-        assets.each_with_index do |id, index|
+        Array(params[:assets]).each_with_index do |id, index|
           where(id: id).update_all(sort_order: index)
         end
       end
@@ -36,8 +43,7 @@ module Uploader
     #
     def fileupload_create(params, _request = nil)
       self[Uploader.guid_column] = params[:guid]
-      fileupload_set_assetable(params)
-      save
+      update_attributes(self.class.fileupload_assetable_options(params))
     end
 
     # Destroy asset
@@ -71,13 +77,6 @@ module Uploader
         url:  url,
         thumb_url: thumb_url
       }
-    end
-
-    protected
-
-    def fileupload_set_assetable(params)
-      self.assetable_type = params[:assetable_type]
-      self.assetable_id = params[:assetable_id]
     end
   end
 end
