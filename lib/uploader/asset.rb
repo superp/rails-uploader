@@ -10,7 +10,13 @@ module Uploader
       end
 
       def fileupload_find_assets(params)
-        where(fileupload_assetable_options(params))
+        conditions = fileupload_assetable_options(params)
+
+        if params[:assetable_id].blank? && !params[:guid].blank?
+          conditions[Uploader.guid_column] = params[:guid]
+        end
+
+        where(conditions)
       end
 
       def fileupload_assetable_options(params)
