@@ -125,10 +125,9 @@ input[disabled].uploader-button.gray {
 }
 
 .uploader-dnd-area .attach_item {
-  width: 242px;
-  height: 50px;
+  width: 250px;
   border: 1px solid #cccccd;
-  padding: 19px;
+  padding: 10px;
   position: relative;
   float: left;
   margin: 0 20px 20px 0;
@@ -172,12 +171,12 @@ input[disabled].uploader-button.gray {
 }
 .uploader-dnd-area .attach_item .infoHolder {
   float: right;
-  width: 180px;
+  width: 170px;
   overflow: hidden;
 }
 .uploader-dnd-area .attach_item .fileName {
   color: #000;
-  font-size: 14px;
+  font-size: 12px;
   height: 18px;
   overflow: hidden;
 }
@@ -185,7 +184,7 @@ input[disabled].uploader-button.gray {
   color: #B1B1B1;
 }
 .uploader-dnd-area .attach_item .fileWeight {
-  font-size: 12px;
+  font-size: 11px;
 }
 .uploader-dnd-area .attach_item .progressBar {
   display: none;

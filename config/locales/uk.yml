@@ -1,6 +1,6 @@
 uk:
   uploader:
-    button: "Виберіть файл на комп'ютері"
+    button: "Оберіть файл"
     drop: "Перетягніть файл сюди"
     or: "або"
     confirm_delete: "Are you sure?"
