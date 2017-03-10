@@ -40,7 +40,7 @@ module Uploader
     end
 
     def fileupload_guid=(value)
-      @fileupload_changed = (@fileupload_guid != value)
+      @fileupload_changed = (@fileupload_guid != value) if @fileupload_changed.nil?
       @fileupload_guid = value.blank? ? nil : value
     end
 
