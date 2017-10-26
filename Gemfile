@@ -2,9 +2,10 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'rails', '4.1.14'
+gem 'rails', '4.2.10'
 gem 'mini_magick'
 gem 'mongoid', '5.0.0'
+gem 'rake', '< 11.0'
 
 # jquery-rails is used by the dummy application
 gem 'jquery-rails'
