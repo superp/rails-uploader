@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/superp/rails-uploader.svg?branch=master)](https://travis-ci.org/superp/rails-uploader)
+
 # HTML5 File uploader for rails
 
 This gem use https://github.com/blueimp/jQuery-File-Upload for upload files.
