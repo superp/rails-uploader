@@ -1,18 +1,7 @@
 # encoding: utf-8
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
-
-desc 'Default: run unit tests.'
-task :default => :test
-
-desc 'Test the rails-uploader plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
+require 'rdoc/task'
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
 
 desc 'Generate documentation for the rails-uploader plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
@@ -22,3 +11,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+RSpec::Core::RakeTask.new(:spec)
+
+task default: :spec
