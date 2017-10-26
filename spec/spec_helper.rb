@@ -15,6 +15,8 @@ ActionMailer::Base.default_url_options[:host] = 'test.com'
 
 Rails.backtrace_cleaner.remove_silencers!
 
+# copy gem migrations to ensure we have the *same* in the app
+FileUtils.cp_r 'lib/generators/uploader/install/templates/.', 'spec/dummy/db/migrate/'
 # Run any available migration
 ActiveRecord::Migrator.migrate File.expand_path('../dummy/db/migrate/', __FILE__)
 
