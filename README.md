@@ -21,7 +21,7 @@ mount Uploader::Engine => '/uploader'
 Migration for ActiveRecord:
 
 ```bash
-$> rake uploader:install:migrations
+  $ bundle exec rails g uploader:install
 ```
 
 ## Usage
