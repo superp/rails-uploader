@@ -46,7 +46,7 @@ module Uploader
 
     def find_klass
       @klass = Uploader.constantize(params[:klass])
-      raise ActionController::RoutingError, "Class not found #{params[:klass]}" if @klass.nil?
+      raise ActionController::ParameterMissing.new("klass parameter isn't set but #{params[:klass].inspect}") if @klass.nil?
     end
 
     def build_asset

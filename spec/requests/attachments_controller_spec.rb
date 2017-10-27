@@ -40,6 +40,6 @@ describe Uploader::AttachmentsController do
   it "should raise 404 error with wrong class" do
     lambda {
       post "/uploader/attachments", {:klass => "wrong"}
-    }.should raise_error(ActionController::RoutingError)
+    }.should raise_error(ActionController::ParameterMissing)
   end
 end
