@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAssets < ActiveRecord::Migration
   def self.up
     create_table :assets do |t|

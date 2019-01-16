@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Uploader
   class FilePart < File
     def initialize(path, filename)

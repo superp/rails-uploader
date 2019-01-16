@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Uploader
   module ChunkedUploads
     extend ActiveSupport::Concern

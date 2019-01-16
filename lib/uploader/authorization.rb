@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 module Uploader
@@ -21,6 +23,7 @@ module Uploader
     # If the action is not allowd, it raises an Uploader::AccessDenied exception.
     def authorize!(action, subject = nil)
       return if authorized?(action, subject)
+
       raise Uploader::AccessDenied.new(current_uploader_user, action, subject)
     end
 
@@ -46,6 +49,7 @@ module Uploader
 
     def current_uploader_user
       return if Uploader.current_user_proc.nil?
+
       @current_uploader_user ||= Uploader.current_user_proc.call(request)
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rack/request'
 require 'fileutils'
 require 'digest/sha1'
@@ -30,6 +32,7 @@ module Uploader
 
     def total_file_length
       return content_length.to_i unless chunked?
+
       @env['HTTP_CONTENT_RANGE'].split(SPLITTER).last.to_i
     end
 
@@ -73,7 +76,7 @@ module Uploader
 
     def extract_filename(value)
       value = value.match(/filename\s?=\s?\"?([^;"]+)\"?/i)[1]
-      URI.decode(value.force_encoding('binary'))
+      URI.decode_www_form(value.force_encoding('binary'))
     end
   end
 end

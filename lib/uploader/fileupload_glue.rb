@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Uploader
   class FileuploadGlue
     attr_reader :record, :record_klass
@@ -36,6 +38,7 @@ module Uploader
 
     def asset(method_name)
       return unless available_fileuploads.include?(method_name.to_sym)
+
       find_asset_by_fileupload_guid(method_name, fileupload_guid) || build_asset(method_name)
     end
 
@@ -47,6 +50,7 @@ module Uploader
     # Find class by reflection
     def klass(method_name)
       return if association(method_name).nil?
+
       association(method_name).klass
     end
 
@@ -62,6 +66,7 @@ module Uploader
 
     def available_fileuploads
       return [] if @record_klass.fileupload_options.nil?
+
       @available_fileuploads ||= @record_klass.fileupload_options.keys
     end
 
@@ -97,7 +102,9 @@ module Uploader
     end
 
     def record_klass_type
-      if @record_klass.respond_to?(:base_class)
+      if @record_klass.respond_to?(:polymorphic_name)
+        @record_klass.polymorphic_name
+      elsif @record_klass.respond_to?(:base_class)
         @record_klass.base_class.name
       else
         @record_klass.name

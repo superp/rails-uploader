@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 module Uploader
@@ -80,7 +82,7 @@ module Uploader
         name: filename,
         content_type: content_type,
         size: size,
-        url:  url,
+        url: url,
         thumb_url: thumb_url
       }
     end

@@ -1,4 +1,5 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 require 'securerandom'
 require 'uploader/version'
 
@@ -64,6 +65,7 @@ module Uploader
 
   def self.constantize(klass)
     return if klass.blank?
+
     klass.safe_constantize
   end
 

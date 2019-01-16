@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Uploader
   class AttachmentsController < ActionController::Metal
     include AbstractController::Callbacks
@@ -5,8 +7,8 @@ module Uploader
     include Uploader::ChunkedUploads
 
     before_action :find_klass
-    before_action :build_asset, only: [:create]
-    before_action :find_asset, only: [:destroy]
+    before_action :build_asset, only: :create
+    before_action :find_asset, only: :destroy
 
     def index
       authorize!(:index, @klass)

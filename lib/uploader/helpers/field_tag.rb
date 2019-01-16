@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Uploader
   module Helpers
     class FieldTag
-      RESERVED_OPTIONS_KEYS = %(method_name object_name theme value object sortable).freeze
+      RESERVED_OPTIONS_KEYS = %w[method_name object_name theme value object sortable].freeze
 
       attr_reader :template, :object, :theme
 
@@ -78,7 +80,7 @@ module Uploader
       end
 
       def input_html_options
-        @options.select { |key, _value| !RESERVED_OPTIONS_KEYS.include?(key.to_s) }
+        @options.reject { |key, _value| RESERVED_OPTIONS_KEYS.include?(key.to_s) }
       end
     end
   end
