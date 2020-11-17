@@ -7,8 +7,8 @@ module Uploader
     delegate :reflect_on_association, to: :record_klass
     delegate :fileupload_guid, :new_record?, to: :record
 
-    TARGET_TYPE = '_type'.freeze
-    TARGET_ID = '_id'.freeze
+    TARGET_TYPE = '_type'
+    TARGET_ID = '_id'
 
     def initialize(record)
       @record = record

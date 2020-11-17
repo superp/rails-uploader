@@ -62,6 +62,7 @@ module Uploader
     def fileupload_destroy_other_on_singular?(params)
       return unless params[:singular].to_s.downcase == 'true'
       return true if params[:guid].present?
+
       [
         params["#{Uploader.assetable_column}_id"],
         params["#{Uploader.assetable_column}_type"]

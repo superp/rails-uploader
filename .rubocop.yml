@@ -1,9 +1,13 @@
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 2.5.5
+
 Style/Documentation:
   Enabled: false
 
 ##################### Metrics ##################################
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 110
 
 Metrics/ClassLength:
@@ -11,8 +15,3 @@ Metrics/ClassLength:
 
 Metrics/ModuleLength:
   Max: 200
-
-##################### Rails ##################################
-
-Rails:
-  Enabled: false
