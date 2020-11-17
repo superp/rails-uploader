@@ -75,7 +75,7 @@ module Uploader
       def input_html
         @input_html ||= { multiple: multiple?, class: 'uploader' }.merge(input_html_options)
         @input_html[:data] ||= {}
-        @input_html[:data][:url] ||= attachments_path
+        @input_html[:data][:url] ||= attachments_path(singular: !multiple?)
         @input_html
       end
 
