@@ -171,6 +171,8 @@
                     files = getFilesFromResponse(data),
                     template,
                     deferred;
+                var options = that.options;
+                if (options.singular) { options.filesContainer.html(data.context || '') };
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
