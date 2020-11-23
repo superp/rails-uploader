@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 require 'active_support/concern'
+require_relative 'json_rendering'
 
 module Uploader
   module Authorization
     extend ActiveSupport::Concern
 
     included do
-      include ActiveSupport::Rescuable
+      include JsonRendering
+      include ActionController::Rescue
 
       rescue_from Uploader::AccessDenied, with: :dispatch_uploader_access_denied
     end
@@ -44,7 +46,7 @@ module Uploader
     end
 
     def dispatch_uploader_access_denied(exception)
-      render json: { message: exception.message }, status: 403
+      render_json({ message: exception.message }, 403)
     end
 
     def current_uploader_user
