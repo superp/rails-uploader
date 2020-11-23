@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require 'active_support/concern'
+require_relative 'json_rendering'
 
 module Uploader
   module Authorization
     extend ActiveSupport::Concern
 
     included do
+      include JsonRendering
       include ActionController::Rescue
 
       rescue_from Uploader::AccessDenied, with: :dispatch_uploader_access_denied
