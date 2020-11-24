@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails-uploader (0.5.0)
+    rails-uploader (0.5.1)
 
 GEM
   remote: https://rubygems.org/
