@@ -173,6 +173,7 @@
                     deferred;
                 var options = that.options;
                 if (options.singular) { options.filesContainer.html(data.context || '') };
+                options.dropZone.find('.uploader-errors').text('');
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
@@ -220,6 +221,9 @@
                         $(this).data('fileupload'),
                     template,
                     deferred;
+                try { var errors = data._response.jqXHR.responseJSON.files[0].error || ''}
+                catch (e) { var errors = '' }
+                that.options.dropZone.find('.uploader-errors').text(errors);
                 if (data.context) {
                     data.context.each(function (index) {
                         if (data.errorThrown !== 'abort') {
@@ -239,6 +243,7 @@
                                             that._trigger('failed', e, data);
                                             that._trigger('finished', e, data);
                                             deferred.resolve();
+                                            data.context.remove();
                                         }
                                     );
                                 }
