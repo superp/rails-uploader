@@ -1,6 +1,7 @@
 <%= content_tag(:div, id: field.id, class: 'uploader-dnd-area', data: { tpml: field.klass.to_s, exists: field.exists? }) do -%>
   <%= hidden_field(field.object_name, :fileupload_guid, object: field.object) if field.object.new_record? %>
 
+  <p class='uploader-errors'></p>
   <div class="uploader-files"></div>
 
   <div class="uploader-dnd-hints">

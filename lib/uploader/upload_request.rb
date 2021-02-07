@@ -7,7 +7,7 @@ require 'uri'
 
 module Uploader
   class UploadRequest < Rack::Request
-    SPLITTER = '/'.freeze
+    SPLITTER = '/'
 
     attr_reader :file
 

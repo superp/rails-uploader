@@ -69,12 +69,6 @@ module Uploader
       end
     end
 
-    def render_json(hash_or_object, status = 200)
-      self.status = status
-      self.content_type = request.format
-      self.response_body = hash_or_object.to_json(root: false)
-    end
-
     def asset_params
       ActionController::Parameters.new(params).require(:asset).permit(:data)
     end

@@ -34,6 +34,7 @@ class UploaderWidget
     @options['filesContainer'] = @container
     @options['uploadTemplateId'] += @template
     @options['downloadTemplateId'] += @template
+    @options.singular = !@input.prop('multiple')
 
     this._initFileupload()
 
