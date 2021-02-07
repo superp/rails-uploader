@@ -76,11 +76,19 @@ module Uploader
         @input_html ||= { multiple: multiple?, class: 'uploader' }.merge(input_html_options)
         @input_html[:data] ||= {}
         @input_html[:data][:url] ||= attachments_path
+        @input_html[:accept] ||= extension_whitelist
         @input_html
       end
 
       def input_html_options
         @options.reject { |key, _value| RESERVED_OPTIONS_KEYS.include?(key.to_s) }
+      end
+
+      def extension_whitelist
+        return unless klass.uploaders[:data].try(:const_defined?, :EXTENSION_WHITELIST)
+
+        exts = klass.uploaders[:data]::EXTENSION_WHITELIST
+        ".#{exts.join(', .')}" if exts.any?
       end
     end
   end
