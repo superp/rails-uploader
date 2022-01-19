@@ -9,7 +9,7 @@ gem 'rails', '4.2.10'
 gem 'mongoid', '5.0.0'
 
 gem 'mini_magick'
-gem 'rake', '< 11.0'
+gem 'rake', '< 14.0'
 
 # jquery-rails is used by the dummy application
 gem 'jquery-rails'
