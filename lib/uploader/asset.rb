@@ -51,7 +51,7 @@ module Uploader
     #
     def fileupload_create(params, _request = nil)
       self[Uploader.guid_column] = params[:guid]
-      return false unless update_attributes(self.class.fileupload_assetable_options(params))
+      return false unless update(self.class.fileupload_assetable_options(params))
 
       if fileupload_destroy_other_on_singular?(params)
         self.class.fileupload_find_assets(params).where.not(id: id).destroy_all
