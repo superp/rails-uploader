@@ -8,7 +8,7 @@ module Uploader
     extend ActiveSupport::Concern
 
     included do
-      include JsonRendering
+      include Uploader::JsonRendering
       include ActionController::Rescue
 
       rescue_from Uploader::AccessDenied, with: :dispatch_uploader_access_denied
