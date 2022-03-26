@@ -13,6 +13,7 @@ module Uploader
   autoload :UploadRequest, 'uploader/upload_request'
   autoload :FilePart, 'uploader/file_part'
   autoload :FileuploadGlue, 'uploader/fileupload_glue'
+  autoload :JsonRendering, 'uploader/json_rendering'
 
   # Just Rails helpers
   module Helpers

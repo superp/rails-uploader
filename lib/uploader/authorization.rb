@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_support/concern'
-require_relative 'json_rendering'
 
 module Uploader
   module Authorization
