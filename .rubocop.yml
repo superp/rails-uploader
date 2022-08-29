@@ -5,6 +5,9 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
+Lint/SendWithMixinArgument:
+  Enabled: false
+
 ##################### Metrics ##################################
 
 Layout/LineLength:
