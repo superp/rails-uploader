@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/superp/rails-uploader.svg?branch=master)](https://travis-ci.org/superp/rails-uploader)
+[![Build Status](https://app.travis-ci.com/superp/rails-uploader.svg?branch=master)](https://app.travis-ci.com/superp/rails-uploader)
 
 # HTML5 File uploader for rails
 
