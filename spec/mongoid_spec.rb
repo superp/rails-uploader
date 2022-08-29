@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'mongoid'
 
@@ -33,7 +35,7 @@ describe Uploader::Asset do
     asset.should == @picture
   end
 
-  it "should update asset target_id by guid" do
+  it 'should update asset target_id by guid' do
     @article.save
 
     @picture.reload
