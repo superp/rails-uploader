@@ -21,7 +21,7 @@ mount Uploader::Engine => '/uploader'
 Migration for ActiveRecord:
 
 ```bash
-  $ bundle exec rails g uploader:install
+bundle exec rails g uploader:install
 ```
 
 ## Usage
@@ -286,6 +286,8 @@ That's it!
 
 ## Testing
 
-    rspec ./spec/
+```
+rspec ./spec/
+```
 
-Copyright (c) 2016 Fodojo LLC, released under the MIT license
+Copyright (c) 2022 Fodojo LLC, released under the MIT license
