@@ -22,31 +22,31 @@ RSpec.describe Uploader::Fileuploads do
       picture.update_column(:guid, article.fileupload_guid)
 
       asset = article.fileupload_asset('picture')
-      asset.should == picture
+      expect(asset).to eq picture
     end
 
     it 'should generate guid' do
-      article.fileupload_guid.should_not be_blank
+      expect(article.fileupload_guid).not_to be_blank
     end
 
     it 'should change guid' do
       article.fileupload_guid = 'other guid'
-      article.fileupload_changed?.should be_truthy
-      article.fileupload_guid.should == 'other guid'
+      expect(article.fileupload_changed?).to be_truthy
+      expect(article.fileupload_guid).to eq 'other guid'
     end
 
     it 'should not multiplay upload' do
-      article.fileupload_multiple?('picture').should be_falsey
+      expect(article.fileupload_multiple?('picture')).to be_falsey
     end
 
     it 'should find uploaded asset or build new record' do
       picture = article.fileupload_asset(:picture)
-      picture.should_not be_nil
-      picture.should be_new_record
+      expect(picture).not_to be_nil
+      expect(picture).to be_new_record
     end
 
     it 'must get fileupload params' do
-      article.fileupload_params(:picture).should_not be nil
+      expect(article.fileupload_params(:picture)).not_to be nil
     end
   end
 end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  raise Article.inspect
-
   factory :article, class: Article do
     title { 'MyString' }
     content { 'MyText' }
