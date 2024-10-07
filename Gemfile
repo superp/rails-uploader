@@ -4,9 +4,9 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'rails', '4.2.10'
+gem 'rails'
 
-gem 'mongoid', '5.0.0'
+gem 'mongoid'
 
 gem 'mini_magick'
 
