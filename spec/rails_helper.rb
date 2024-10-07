@@ -26,8 +26,6 @@ require 'rspec/rails'
 # Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 require 'factory_bot_rails'
-FactoryBot.definition_file_paths = %w(spec/factories/factories.rb)
-FactoryBot.find_definitions
 
 require 'carrierwave'
 CarrierWave.configure do |config|
@@ -41,6 +39,8 @@ FileUtils.cp_r 'lib/generators/uploader/install/templates/.', 'spec/dummy/db/mig
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
 begin
+  # ActiveRecord::Migration.migrate(Rails.root.join('db/migrate').to_s)
+  ActiveRecord::Migrator.migrations_paths = Rails.root.join('db/migrate').to_s
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip

@@ -6,6 +6,8 @@ RSpec.describe Uploader::Fileuploads do
   let(:picture) { create(:picture, assetable_type: 'Article') }
 
   it 'should be a Module' do
+    # raise FactoryBot.find_definitions.inspect
+    require "/Users/mario/www/gems/rails-uploader/spec/factories/factories.rb"
     expect(Uploader::Fileuploads).to be_a(Module)
   end
 
