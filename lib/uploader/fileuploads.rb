@@ -9,7 +9,8 @@ module Uploader
     included do
       class_attribute :fileupload_options, instance_writer: false
 
-      delegate :asset, :multiple?, :params, :klass, to: :fileupload_glue, prefix: :fileupload
+      delegate :asset, :multiple?, :params, :klass,
+               :extension_whitelist, to: :fileupload_glue, prefix: :fileupload
 
       after_create :fileupload_update, if: :fileupload_changed?
     end

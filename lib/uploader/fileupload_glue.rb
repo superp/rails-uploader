@@ -62,6 +62,28 @@ module Uploader
       association(method_name).send(name)
     end
 
+    def extension_whitelist(method_name)
+      model = klass(method_name)
+      uploader = model.respond_to?(:uploaders) ? model.uploaders[:data] : nil
+
+      possible_sources = [
+        @record,
+        model,
+        uploader,
+        uploader.respond_to?(:new) ? uploader.new : nil
+      ].compact
+
+      possible_sources.each do |source|
+        if source.respond_to?(:extension_whitelist)
+          return source.extension_whitelist
+        end
+      end
+
+      return unless uploader.try(:const_defined?, :EXTENSION_WHITELIST)
+
+      uploader::EXTENSION_WHITELIST
+    end
+
     protected
 
     def available_fileuploads

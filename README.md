@@ -48,14 +48,12 @@ class PictureUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file
 
-  EXTENSION_WHITELIST = %w[jpg jpeg gif png].freeze
-
   version :thumb do
     process resize_to_fill: [100, 100]
   end
 
   def extension_whitelist
-    EXTENSION_WHITELIST
+    %w[jpg jpeg gif png]
   end
 end
 ```

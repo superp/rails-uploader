@@ -73,10 +73,10 @@ module Uploader
       end
 
       def input_html
-        @input_html ||= { multiple: multiple?, class: 'uploader' }.merge(input_html_options)
+        @input_html ||= { multiple: multiple?, class: 'uploader' }.merge!(input_html_options)
         @input_html[:data] ||= {}
         @input_html[:data][:url] ||= attachments_path(singular: !multiple?)
-        @input_html[:accept] ||= extension_whitelist
+        @input_html[:accept] ||= ".#{extension_whitelist.join(',.')}" if extension_whitelist.any?
         @input_html
       end
 
@@ -85,17 +85,7 @@ module Uploader
       end
 
       def extension_whitelist
-        @extension_whitelist ||= extract_extension_whitelist
-      end
-
-      private
-
-      def extract_extension_whitelist
-        return unless klass.respond_to?(:uploaders)
-        return unless klass.uploaders[:data].try(:const_defined?, :EXTENSION_WHITELIST)
-
-        exts = klass.uploaders[:data]::EXTENSION_WHITELIST
-        ".#{exts.join(', .')}" if exts.any?
+        @extension_whitelist ||= Array(@object.fileupload_extension_whitelist(method_name)).compact
       end
     end
   end
