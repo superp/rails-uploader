@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'rails_helper'
 require 'mongoid'
 
 Mongoid.load!('spec/mongoid.yml', ENV['RAILS_ENV'])
@@ -23,7 +23,7 @@ class MongoidPicture
   belongs_to :assetable, polymorphic: true
 end
 
-describe Uploader::Asset do
+RSpec.describe Uploader::Asset do
   before do
     @guid = 'guid'
     @article = MongoidArticle.new(fileupload_guid: @guid)

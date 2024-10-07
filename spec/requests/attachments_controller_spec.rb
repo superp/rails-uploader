@@ -13,7 +13,7 @@ describe Uploader::AttachmentsController do
 
   it "should create new asset" do
     file = Rack::Test::UploadedFile.new('spec/factories/files/rails.png', "image/png")
-    article = FactoryGirl.create(:article)
+    article = create(:article)
     post "/uploader/attachments", {
       :klass => "Picture",
       :assetable_id => article.id,
@@ -30,7 +30,7 @@ describe Uploader::AttachmentsController do
 
   it "should destroy old asset on new asset for has_one" do
     file = Rack::Test::UploadedFile.new('spec/factories/files/rails.png', "image/png")
-    article = FactoryGirl.create(:article)
+    article = create(:article)
     post "/uploader/attachments", {
       :klass => "Picture",
       :assetable_id => article.id,
@@ -58,7 +58,7 @@ describe Uploader::AttachmentsController do
   end
 
   it "should destroy asset" do
-    @asset = FactoryGirl.create(:picture)
+    @asset = create(:picture)
 
     lambda {
       delete "/uploader/attachments/#{@asset.id}", {:klass => "Picture"}
@@ -66,7 +66,7 @@ describe Uploader::AttachmentsController do
   end
 
   it "should not destroy asset with not exists guid" do
-    @asset = FactoryGirl.create(:picture)
+    @asset = create(:picture)
 
     lambda {
       delete "/uploader/attachments/wrong", {:klass => "Picture"}

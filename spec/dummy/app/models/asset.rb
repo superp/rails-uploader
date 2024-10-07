@@ -20,7 +20,7 @@
 #  index_assets_on_assetable_type_and_assetable_id           (assetable_type,assetable_id)
 #  index_assets_on_user_id                                   (user_id)
 #
-class Asset < ActiveRecord::Base
+class Asset < ApplicationRecord
   include Uploader::Asset
 
   belongs_to :assetable, polymorphic: true
